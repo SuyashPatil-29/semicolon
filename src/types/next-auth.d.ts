@@ -5,13 +5,13 @@ declare module "next-auth" {
   interface User {
     name: string;
     usn: string;
-    access: "STUDENT" | "HOD" | "TEACHER" | "CR";
+    access: access;
   }
   interface Session {
     user: {
       name: string;
       usn: string;
-      access: "STUDENT" | "HOD" | "TEACHER" | "CR";
+      access: access
       id: string;
     };
   }

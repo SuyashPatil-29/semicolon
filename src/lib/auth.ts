@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "./db";
 import {PrismaAdapter} from "@next-auth/prisma-adapter";
 import { compare } from "bcrypt";
+import { access } from "@prisma/client";
 
 export const authOptions : NextAuthOptions = {
   adapter : PrismaAdapter(db),
@@ -16,11 +17,11 @@ export const authOptions : NextAuthOptions = {
     name: "Credentials",
     credentials: {
       usn : {label: "USN", type: "text", placeholder: "1NH22AI170"},  
-      name: { label: "Username", type: "text", placeholder: "jsmith" },
-      password: { label: "Password", type: "password" },
+      name: { label: "Username", type: "text", placeholder: "Suyash Patil" },
+      password: { label: "Password", type: "password", placeholder: "********" },
     },
     // @ts-ignore
-    async authorize(credentials, req) {
+    async authorize(credentials) {
       if (!credentials?.usn || !credentials?.password || !credentials?.name) {
         return null;
       }
@@ -45,6 +46,16 @@ export const authOptions : NextAuthOptions = {
   })
 ],
 callbacks: {
+  async session({ session, token }) {
+    session.user = {
+      ...session.user,
+      id: token.id as string,
+      usn: token.usn as string,
+      name: token.name as string,
+      access: token.access as access,
+    };
+    return session;
+  },
   async jwt({ token, user }) {
     if (user) {
       token.id = user.id;
@@ -53,16 +64,6 @@ callbacks: {
       token.access = user.access;
     }
     return token;
-  },
-  async session({ session, token }) {
-    session.user = {
-      ...session.user,
-      id: token.id as string,
-      usn: token.usn as string,
-      name: token.name as string,
-      access: token.access as "STUDENT" | "TEACHER" | "HOD" | "CR", // Ensure 'access' is correctly passed from the JWT
-    };
-    return session;
   }
 }
 }

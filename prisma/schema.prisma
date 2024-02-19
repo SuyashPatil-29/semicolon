@@ -8,13 +8,23 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  usn           String
-  name          String
-  password      String
-  access        access    @default(STUDENT) // Default to STUDENT
-  auth_session  Session[]
-  key           Key[]
+  id           String    @id @default(cuid())
+  usn          String
+  name         String
+  password     String
+  access       access    @default(STUDENT) // Default to STUDENT
+  auth_session Session[]
+  key          Key[]
+}
+
+model File {
+  id         String   @id @default(cuid())
+  name       String
+  fileUrl    String
+  fileSize   Int
+  uploadedBy String
+  uploadedAt String
+  userId String?
 }
 
 enum access {
@@ -25,11 +35,11 @@ enum access {
 }
 
 model Session {
-  id             String   @id @unique
+  id             String @id @unique
   user_id        String
   active_expires BigInt
   idle_expires   BigInt
-  user           User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user           User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@index([user_id])
 }

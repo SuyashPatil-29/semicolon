@@ -1,12 +1,12 @@
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import React from 'react'
-import { Button, buttonVariants } from './ui/button'
+import { buttonVariants } from './ui/button'
 import { ModeToggle } from './ThemeToggleButton'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { signOut } from 'next-auth/react'
 import LogoutButton from './LogoutButton'
+import { access } from '@prisma/client'
 
 
 const Navbar = async () => {
@@ -17,6 +17,7 @@ const session = await getServerSession(authOptions)
       <Link href="/" className="font-bold text-2xl">SEMICOLON</Link>
       <div className="flex gap-8">
         <ModeToggle />
+        {session?.user.access !== access.STUDENT && <Link href="/aiml-library" className={cn(buttonVariants({variant: "link"}),"font-semibold w-[125px]")}>Aiml Library</Link>}
         {session?.user && <LogoutButton />}
         {!session?.user && <Link href="/sign-in" className={cn(buttonVariants({variant: "default"}),"font-semibold w-[125px]")}>Sign In</Link>}
       </div>
