@@ -34,9 +34,7 @@ export async function POST(req: Request) {
   }
   try {
     const body = await req.json();
-    const { classroomName } = body;
-    // Create a classroom and directly associate it with the user based on the session
-    // and add the classroom to the user's adminClassrooms list.
+    const { classroomName, password } = body;
     const classroom = await db.classroom.create({
       data: {
         name: classroomName,
@@ -45,11 +43,7 @@ export async function POST(req: Request) {
             id: session.user.id,
           },
         },
-        // Assuming the relation name is "ClassroomAdmin" as per the schema fix
-        // This part is not needed explicitly since connecting the admin will automatically
-        // link the classroom to the admin's adminClassrooms list due to how Prisma handles relations.
-        // The explicit addition would be necessary if you were modifying the User record directly,
-        // for example, adding a classroom to an existing list of adminClassrooms without creating a new Classroom.
+        password,
       },
     });
     await db.classroomUser.create({

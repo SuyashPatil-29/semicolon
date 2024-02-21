@@ -1,7 +1,5 @@
 "use client";
 import { UserValidator } from "@/lib/validators/UserValidator";
-import { Card } from "./ui/card";
-import { formatDate } from "@/lib/utils";
 import { ClassroomWithDetails } from "./UserData";
 import JoinClassroomDialog from "./JoinClassroomDialog";
 import {
@@ -30,12 +28,13 @@ const JoinClassRoomForm = ({ classrooms, userData }: Props) => {
         </h1>
       </div>
       <p className="text-muted-foreground text-sm pb-8">
-        Click on the classroom you want to join
+        Click on the classroom you want to join {userData.access !== "STUDENT" && <span>or create one.</span>}
       </p>
+      {classrooms.length > 0 && (
       <Table>
         <TableCaption>A list of the classrooms you can join</TableCaption>
         <TableHeader>
-          <TableRow>
+          <TableRow> 
             <TableHead className="text-left w-1/3">Classroom Name</TableHead>
             <TableHead className="text-center">Created By</TableHead>
             <TableHead className="text-center">Members</TableHead>
@@ -69,6 +68,7 @@ const JoinClassRoomForm = ({ classrooms, userData }: Props) => {
             ))}
         </TableBody>
       </Table>
+      )}
     </div>
   );
 };

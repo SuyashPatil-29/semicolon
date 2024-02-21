@@ -1,12 +1,23 @@
 import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
-import { useSearchParams } from "next/navigation";
 
 export async function PUT(req: Request) {
-  const { classroomId, userId } = await req.json();
+  const { classroomId, userId, password } = await req.json();
+  if (!classroomId || !userId || !password) {
+    return new Response(JSON.stringify({ error: "Missing required fields" }), { status: 400 });
+  }
+
   try {
-    // Create a ClassroomUser entry to associate the user with the classroom
+    const classroom = await db.classroom.findUnique({ where: { id: classroomId } });
+    if (!classroom) {
+      return new Response(JSON.stringify({ error: "Classroom not found" }), { status: 404 });
+    }
+
+    if (classroom.password !== password) {
+      return new Response(JSON.stringify({ error: "Incorrect password" }), { status: 401 });
+    }
+
     const classroomUser = await db.classroomUser.create({
       data: {
         userId: userId,
@@ -14,11 +25,10 @@ export async function PUT(req: Request) {
       },
     });
 
-    if (!classroomUser) return new Response("Failed to join classroom", { status: 500 });
-    return new Response(JSON.stringify({ message: "Successfully joined classroom" }), { status: 200 });
+    return new Response(JSON.stringify({ message: "Successfully joined classroom", classroomUser }), { status: 200 });
   } catch (error) {
-    console.log("PUT /api/classroom error: ", error);
-    return new Response("Failed to join classroom", { status: 500 });
+    console.error("PUT /api/classroom error: ", error);
+    return new Response(JSON.stringify({ error: "Failed to join classroom" }), { status: 500 });
   }
 }
 

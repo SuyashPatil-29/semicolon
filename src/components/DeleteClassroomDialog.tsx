@@ -11,50 +11,52 @@ import {
 import axios from "axios";
 import { toast } from "./ui/use-toast";
 import { Trash } from "lucide-react";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 type Props = {
   classroomId: string;
 };
 
 export default function DeleteClassroomDialog({ classroomId }: Props) {
-
   const onSubmit = async () => {
     try {
-    const { data } = await axios.delete(`/api/classroom/${classroomId}`);
-    if(data){
-      toast({
-        title: "Deleted",
-        description: "Classroom deleted successfully",
-      })
-    }
+      const { data } = await axios.delete(`/api/classroom/${classroomId}`);
+      if (data) {
+        toast({
+          title: "Deleted",
+          description: "Classroom deleted successfully",
+        });
+        window.location.reload();
+      }
     } catch (error) {
       toast({
         title: "Error",
         description: "Failed to delete classroom",
         variant: "destructive",
-      }) 
+      });
     }
   };
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="ghost"><Trash className="h-4 w-4"/></Button>
+        <Button variant="ghost">
+          <Trash className="h-4 w-4" />
+        </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>
             Are you sure you want to delete this classroom?
           </DialogTitle>
-          <DialogDescription>
-            This action cannot be undone.
-          </DialogDescription>
+          <DialogDescription>This action cannot be undone.</DialogDescription>
         </DialogHeader>
-        <Button type="button" onClick={onSubmit} variant="default">
-          Delete
-        </Button>
+        <DialogClose asChild>
+          <Button type="button" onClick={onSubmit} variant="default">
+            Delete
+          </Button>
+        </DialogClose>
       </DialogContent>
     </Dialog>
   );
 }
-

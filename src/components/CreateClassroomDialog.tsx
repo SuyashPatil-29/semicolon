@@ -23,13 +23,14 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import axios from "axios";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "./ui/use-toast";
 
 const formSchema = z.object({
   classroomName: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
+  password: z.string().min(6, { message: "Password must be at least 6 numbers." }).max(6, { message: "Password must be at most 6 numbers." }),
 });
 
 export default function CreateClassroomDialog() {
@@ -37,6 +38,7 @@ export default function CreateClassroomDialog() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       classroomName: "",
+      password: "",
     },
   });
 
@@ -89,6 +91,22 @@ export default function CreateClassroomDialog() {
               </FormControl>
               <FormDescription>
                 This is your classroom name.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input type="password" placeholder="123456" {...field} />
+              </FormControl>
+              <FormDescription>
+                This is your classroom password.
               </FormDescription>
               <FormMessage />
             </FormItem>

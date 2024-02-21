@@ -22,6 +22,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Separator } from "./ui/separator";
+import LeaveClassroomDialog from "./LeaveClassroomDialog";
 
 type Props = {
   classrooms: NewClassroomWithDetails[];
@@ -57,7 +58,7 @@ function MyClassroom({ classrooms, userData, allClassrooms }: Props) {
             <TableHead className="text-center">Members</TableHead>
             <TableHead className="text-center">Subjects</TableHead>
             <TableHead className="text-center">View</TableHead>
-            <TableHead className="text-center">Delete</TableHead>
+            <TableHead className="text-center">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -95,7 +96,7 @@ function MyClassroom({ classrooms, userData, allClassrooms }: Props) {
                       />
                     )
                   ) : (
-                    <p>Can&apos;t delete</p>
+                    <LeaveClassroomDialog classroomId={classroom.classroomId} />
                   )}
                 </TableCell>
               </TableRow>

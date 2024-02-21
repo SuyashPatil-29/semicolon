@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Classroom" ALTER COLUMN "password" DROP DEFAULT,
+ALTER COLUMN "password" SET DATA TYPE TEXT;

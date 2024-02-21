@@ -30,6 +30,7 @@ model Classroom {
   adminId    String
   admin      User           @relation(fields: [adminId], references: [id], name: "ClassroomAdmin")
   users      ClassroomUser[]
+  password   String
 }
 
 model ClassroomUser {
