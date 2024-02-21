@@ -58,7 +58,7 @@ export function MultiFileDropzoneUsage({user}: Props) {
                   fileUrl : res.url,
                   fileSize : res.size,
                   userId : user.id,
-                  userName : user.name,
+                  uploadedBy : user.name,
                   uploadedAt : res.uploadedAt.toISOString(),
                   name : addedFiles[0].file.name
                 }

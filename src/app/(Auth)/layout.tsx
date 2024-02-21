@@ -17,7 +17,7 @@ const layout = async ({children}: Props) => {
 
   return (
     <div className='dark:bg-[rgb(28,28,28)] min-h-screen min-w-[100vw]'>
-      <AuthNavbar />
+      <AuthNavbar user={session?.user}/>
       {children}
     </div>
   )

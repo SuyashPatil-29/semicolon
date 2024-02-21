@@ -22,7 +22,7 @@ const layout = async ({children}: Props) => {
   }
 
   return (
-    <div className='dark:bg-[rgb(28,28,28)] min-h-screen'>
+    <div className='dark:bg-[rgb(28,28,28)] min-h-screen h-full'>
       <Navbar />
       <MaxWidthWrapper className=''>
       {children}

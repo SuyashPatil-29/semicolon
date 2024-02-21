@@ -8,23 +8,47 @@ datasource db {
 }
 
 model User {
-  id           String    @id @default(cuid())
+  id           String      @id @default(cuid())
   usn          String
   name         String
   password     String
-  access       access    @default(STUDENT) // Default to STUDENT
+  access       access      @default(STUDENT)
   auth_session Session[]
   key          Key[]
+  Documents    Document[]
+  Subjects     Subject[]
+  Files        File[]
+  classrooms   ClassroomUser[]
+  adminClassrooms Classroom[] @relation("ClassroomAdmin")
+}
+
+model Classroom {
+  id         String         @id @default(cuid())
+  name       String
+  created_at DateTime       @default(now())
+  subjects   Subject[]
+  adminId    String
+  admin      User           @relation(fields: [adminId], references: [id], name: "ClassroomAdmin")
+  users      ClassroomUser[]
+}
+
+model ClassroomUser {
+  userId      String
+  classroomId String
+  user        User       @relation(fields: [userId], references: [id])
+  classroom   Classroom  @relation(fields: [classroomId], references: [id])
+  @@id([userId, classroomId])
 }
 
 model File {
-  id         String   @id @default(cuid())
+  id         String @id @default(cuid())
   name       String
   fileUrl    String
   fileSize   Int
   uploadedBy String
   uploadedAt String
-  userId String?
+  user       User   @relation(fields: [userId], references: [id]) // Each file is uploaded by a user, so it's optional here
+  userId     String
 }
 
 enum access {
@@ -51,4 +75,31 @@ model Key {
   user            User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@index([user_id])
+}
+
+model Subject {
+  id        String     @id @default(cuid())
+  name      String
+  documents Document[]
+
+  classroom   Classroom? @relation(fields: [classroomId], references: [id])
+  classroomId String?
+  User        User?      @relation(fields: [userId], references: [id])
+  userId      String?
+
+  @@index([classroomId])
+}
+
+model Document {
+  id         String  @id @default(cuid())
+  name       String
+  fileUrl    String
+  fileSize   Int
+  uploadedBy String
+  uploadedAt String
+  user       User    @relation(fields: [userId], references: [id]) // Optional if a document is uploaded by a user
+  subject    Subject @relation(fields: [subjectId], references: [id])
+
+  subjectId String
+  userId    String
 }

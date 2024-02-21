@@ -4,7 +4,7 @@ export const AimlFileUploadValidator = z.object({
   fileUrl: z.string(),
   fileSize: z.number(),
   userId: z.string(),
-  userName: z.string(),
+  uploadedBy: z.string(),
   uploadedAt : z.string(),
   name : z.string()
 })

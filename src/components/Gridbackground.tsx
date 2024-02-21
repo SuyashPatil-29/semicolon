@@ -1,10 +1,51 @@
+"use client"
+import { CardStack } from "@/components/CardStack";
 import MarketingNavbar from "@/components/MarketingNavbar";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import React from "react";
 
-function GridBackgroundDemo() {
+export default function GridBackgroundDemo() {
+  const CARDS = [
+    {
+      id: 0,
+      name: "Manu Arora",
+      designation: "Senior Software Engineer",
+      content: (
+        <p>
+          These cards are amazing, <h1>I want to use them</h1> in my project.
+          Framer motion is a godsend ngl tbh fam 🙏
+        </p>
+      ),
+    },
+    {
+      id: 1,
+      name: "Elon Musk",
+      designation: "Senior Shitposter",
+      content: (
+        <p>
+          I dont like this Twitter thing, <h1>deleting it right away</h1>{" "}
+          because yolo. Instead, I would like to call it <h1>X.com</h1> so that
+          it can easily be confused with adult sites.
+        </p>
+      ),
+    },
+    {
+      id: 2,
+      name: "Tyler Durden",
+      designation: "Manager Project Mayhem",
+      content: (
+        <p>
+          The first rule of
+          <h1>Fight Club</h1> is that you do not talk about fight club. The
+          second rule of
+          <h1>Fight club</h1> is that you DO NOT TALK about fight club.
+        </p>
+      ),
+    },
+  ];
+
   return (
     <div className="h-[100vh] w-full dark:bg-black bg-white  dark:bg-grid-white/[0.2] bg-grid-black/[0.2] relative flex items-center justify-center">
       {/* Radial gradient for the container to give a faded look */}
@@ -23,7 +64,7 @@ function GridBackgroundDemo() {
               href="/teacher/sign-up"
               className={cn(
                 buttonVariants(),
-                "w-1/3 dark:bg-white bg-black rounded-lg font-semibold",
+                "w-1/3 dark:bg-white bg-black rounded-lg font-semibold"
               )}
             >
               Teacher Sign Up
@@ -32,7 +73,7 @@ function GridBackgroundDemo() {
               href="/sign-up"
               className={cn(
                 buttonVariants(),
-                "w-1/3 dark:bg-white bg-black rounded-lg font-semibold",
+                "w-1/3 dark:bg-white bg-black rounded-lg font-semibold"
               )}
             >
               Student Sign Up
@@ -41,19 +82,17 @@ function GridBackgroundDemo() {
           <p className="pl-[470px] font-semibold dark:text-white text-black text-xl">
             By ~{" "}
             <span className="underline">
-              <a target="_blank" href="https://dev-suyash.vercel.app/">Suyash Patil</a>
+              <a target="_blank" href="https://dev-suyash.vercel.app/">
+                Suyash Patil
+              </a>
             </span>
           </p>
+        </div>
+        <div className="h-[40rem] flex items-center justify-center w-full">
+          <CardStack items={CARDS} />
         </div>
       </div>
     </div>
   );
 }
 
-export default function Home() {
-  return (
-    <>
-      <GridBackgroundDemo />
-    </>
-  );
-}
