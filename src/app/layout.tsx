@@ -11,8 +11,16 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Semicolon",
   description: "Share and manage files with your class with ease",
+  metadataBase: new URL('https://i.postimg.cc/jS3gKbGC'),
+  alternates: {
+    canonical: '/',
+    languages: {
+      'en-US': '/en-US',
+      'de-DE': '/de-DE',
+    },
+  },
   openGraph:{
-    images: "https://semicolon-g8p5vfqfg-suyashpatil-29.vercel.app/opengraph-image.png"
+    images: "/opengraph-image.png"
   }
 };
 
