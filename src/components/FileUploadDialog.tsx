@@ -29,7 +29,7 @@ export default function FileUploadDialog({ user }: Props) {
             variant="default"
             size="sm"
           >
-            Create Subject
+            Upload Files
           </Button>
           <Button
             className="font-semibold text-sm md:hidden block"
