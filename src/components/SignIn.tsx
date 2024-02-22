@@ -98,7 +98,7 @@ const SignIn = () => {
             name="usn"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>USN</FormLabel>
+                <FormLabel>USN / Ph No</FormLabel>
                 <FormControl>
                   <Input placeholder="1NH22AI170" {...field} />
                 </FormControl>
