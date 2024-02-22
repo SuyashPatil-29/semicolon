@@ -9,6 +9,7 @@ import Link from "next/link";
 import { Card } from "./ui/card";
 import { Input } from "./ui/input";
 import { EmptyAlert } from "./EmptyAlert";
+import UserData from "./UserData";
 
 type Props = {
   classroomId: string;
@@ -41,7 +42,7 @@ type ClassroomWithDetails = {
   users: { id: string; name: string; }[];
 };
 
-const Classroom = ({ classroomId }: Props) => {
+const Classroom = ({ classroomId, user }: Props) => {
   const { data: classroomData, isLoading } = useQuery<ClassroomWithDetails>({
     queryKey: ["classroomData", classroomId],
     queryFn: async () => {
@@ -68,7 +69,7 @@ const Classroom = ({ classroomId }: Props) => {
     <div>
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">{classroomData.name}</h1>
-        <CreateSubjectDialog classroomId={classroomId} />
+        {user.access !== "STUDENT" && user.access !== "CR" && <CreateSubjectDialog classroomId={classroomId} />}
       </div>
       <Separator className="mt-3 mb-6" />
       <Input
@@ -79,7 +80,7 @@ const Classroom = ({ classroomId }: Props) => {
 
       {classroomData.subjects.length === 0 && (
         <div className="mt-6">
-          <EmptyAlert />
+          <EmptyAlert message="No subjects found. Come back later or create a new subject." />
         </div>
       )}
 

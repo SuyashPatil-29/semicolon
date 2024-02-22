@@ -40,7 +40,7 @@ const UserData = (props: Props) => {
 
   console.log(userData);
   if (!classrooms) return <LoadingState />;
-  if (!userData?.classrooms) return <EmptyAlert />;
+  if (!userData?.classrooms) return <EmptyAlert message="No classrooms found. Please create one or ask a teacher to do so."/>;
 
   return (
     <div>

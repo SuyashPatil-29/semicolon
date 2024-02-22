@@ -18,7 +18,8 @@ type Props = {
 };
 
 const JoinClassRoomForm = ({ classrooms, userData }: Props) => {
-  console.log("classrooms", classrooms);
+
+  console.log("User Accesss from form", userData.access);
   return (
     <div className="pt-10 pb-14">
       <div className="flex items-center justify-between">
@@ -59,9 +60,11 @@ const JoinClassRoomForm = ({ classrooms, userData }: Props) => {
                   {classroom.subjects.length}
                 </TableCell>
                 <TableCell className="text-center">
+                  
                   <JoinClassroomDialog
                     classroom={classroom}
                     userId={userData.id}
+                    userAccess={userData.access}
                   />
                 </TableCell>
               </TableRow>

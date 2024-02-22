@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -14,7 +13,6 @@ import { ClassroomWithDetails } from "./UserData";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "./ui/use-toast";
-import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import {
   Form,
@@ -33,19 +31,26 @@ import { z } from "zod";
 type Props = {
   classroom: ClassroomWithDetails;
   userId: string;
+  userAccess: string; // Add this to receive the user's access level
 };
 
-const formSchema = z.object({
-  password: z
-    .string()
-    .min(6, {
-      message: "Password must be at least 6 numbers.",
-    })
-    .max(6, { message: "Password must be at most 6 numbers." }),
-});
+var formSchema : any;
 
-export default function JoinClassroomDialog({ classroom, userId }: Props) {
+export default function JoinClassroomDialog({ classroom, userId, userAccess }: Props) {
   const router = useRouter();
+
+  if (userAccess === "TEACHER" || userAccess === "HOD") {
+    formSchema = z.object({
+      password: z.string().min(6, { message: "Password must be at least 6 numbers." }).max(6, { message: "Password must be at most 6 numbers." }).optional(),
+    }).or(z.object({
+      password: z.string().optional(),
+    }));
+  }
+  else {
+    formSchema = z.object({
+      password: z.string().min(6, { message: "Password must be at least 6 numbers." }).max(6, { message: "Password must be at most 6 numbers." }).optional(),
+    })
+  }
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -70,17 +75,16 @@ export default function JoinClassroomDialog({ classroom, userId }: Props) {
         toast({
           title: "Joined",
           description: "Classroom joined successfully",
-        })
+        });
       }
-    } catch (error:any) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description:error.response.data.error,
+        description: error.response.data.error,
         variant: "destructive",
       });
     }
   };
-
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -97,25 +101,25 @@ export default function JoinClassroomDialog({ classroom, userId }: Props) {
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input type="password" placeholder="123456" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    You must enter the classroom password to join.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <DialogFooter>
-              <Button type="submit" disabled={!form.formState.isValid} isLoading={form.formState.isSubmitting}>Submit</Button>
-            </DialogFooter>
+            {userAccess !== "TEACHER" && userAccess !== "HOD" && (
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input type="password" placeholder="123456" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      You must enter the classroom password to join.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+            <Button type="submit" className="w-full" isLoading={form.formState.isSubmitting}>Join</Button>
           </form>
         </Form>
       </DialogContent>

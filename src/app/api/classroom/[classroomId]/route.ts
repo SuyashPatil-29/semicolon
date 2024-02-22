@@ -3,9 +3,17 @@ import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
 
 export async function PUT(req: Request) {
+  const session = await getServerSession(authOptions); // Ensure you pass the request to getServerSession
   const { classroomId, userId, password } = await req.json();
-  if (!classroomId || !userId || !password) {
+
+  // Check if the required fields are present
+  if (!classroomId || !userId) {
     return new Response(JSON.stringify({ error: "Missing required fields" }), { status: 400 });
+  }
+
+  // Check if the session exists and if not, return unauthorized
+  if (!session || !session.user) {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
   }
 
   try {
@@ -14,10 +22,24 @@ export async function PUT(req: Request) {
       return new Response(JSON.stringify({ error: "Classroom not found" }), { status: 404 });
     }
 
-    if (classroom.password !== password) {
+    // Allow teachers to join without a password or if the password matches
+    if (session.user.access !== "TEACHER" && classroom.password !== password) {
       return new Response(JSON.stringify({ error: "Incorrect password" }), { status: 401 });
     }
 
+    // Check if the user is already a member of the classroom
+    const isMember = await db.classroomUser.findFirst({
+      where: {
+        userId: userId,
+        classroomId: classroomId,
+      },
+    });
+
+    if (isMember) {
+      return new Response(JSON.stringify({ error: "User already a member of the classroom" }), { status: 400 });
+    }
+
+    // Create a new classroomUser entry
     const classroomUser = await db.classroomUser.create({
       data: {
         userId: userId,

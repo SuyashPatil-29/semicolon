@@ -75,7 +75,7 @@ const FileTable = ({ user }: Props) => {
       {isError ? (
         <ErrorAlert />
       ) : searchStarted && filteredFiles && filteredFiles.length === 0 ? (
-        <EmptyAlert />
+        <EmptyAlert message="No files found" />
       ) : filteredFiles && filteredFiles.length > 0 ? (
         <Table>
           <TableHeader>
@@ -102,7 +102,7 @@ const FileTable = ({ user }: Props) => {
           </TableBody>
         </Table>
       ) : searchStarted ? ( // Check if search has started and no files match the search
-        <EmptyAlert />
+        <EmptyAlert message="No files found" />
       ) : (
         <LoadingState />
       )}

@@ -145,6 +145,7 @@ function MyClassroom({ classrooms, userData, allClassrooms }: Props) {
                         <JoinClassroomDialog
                           classroom={classroom}
                           userId={userData.id}
+                          userAccess={userData.access}
                         />
                       </TableCell>
                     </TableRow>
