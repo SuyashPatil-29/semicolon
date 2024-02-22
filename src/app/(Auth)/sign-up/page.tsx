@@ -4,7 +4,7 @@ import React from "react";
 
 const page = () => {
   return (
-    <div className="h-[93vh] w-full flex justify-center items-end mb-20">
+    <div className="md:mt-6">
         <SignUp />
     </div>
   );

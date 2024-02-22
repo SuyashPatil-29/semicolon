@@ -13,7 +13,7 @@ const StudentDashboard = async () => {
   return (
     <div className="min-h-screen h-full dark:bg-[rgb(28,28,28)]">
       <div className=" flex items-center justify-between pt-24">
-        <h1 className="text-3xl font-semibold">
+        <h1 className="md:text-3xl text-xl font-semibold">
           Welcome {session?.user?.name},
         </h1>
         {session?.user.access !== "STUDENT" && <CreateClassroomDialog />}

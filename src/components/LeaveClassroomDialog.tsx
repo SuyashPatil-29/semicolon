@@ -12,16 +12,20 @@ import {
 import axios from "axios";
 import { toast } from "./ui/use-toast";
 import { LogOut } from "lucide-react";
+import { useState } from "react";
 
 type Props = {
   classroomId: string;
 };
 
 export default function LeaveClassroomDialog({ classroomId }: Props) {
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
   const onSubmit = async () => {
+    setIsButtonLoading(true);
     try {
       const { data } = await axios.delete(`/api/user/${classroomId}`);
       if (data) {
+        setIsButtonLoading(false);
         toast({
           title: "Left",
           description: "Classroom left successfully",
@@ -29,6 +33,7 @@ export default function LeaveClassroomDialog({ classroomId }: Props) {
         window.location.reload();
       }
     } catch (error) {
+      setIsButtonLoading(false);
       toast({
         title: "Error",
         description: "Failed to leave classroom",
@@ -44,18 +49,21 @@ export default function LeaveClassroomDialog({ classroomId }: Props) {
           <LogOut className="h-4 w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>
             Are you sure you want to leave this classroom?
           </DialogTitle>
           <DialogDescription>This action cannot be undone.</DialogDescription>
         </DialogHeader>
-        <DialogClose asChild>
-          <Button type="button" onClick={onSubmit} variant="default">
-            Leave
-          </Button>
-        </DialogClose>
+        <Button
+          type="button"
+          onClick={onSubmit}
+          isLoading={isButtonLoading}
+          variant="default"
+        >
+          Leave
+        </Button>
       </DialogContent>
     </Dialog>
   );

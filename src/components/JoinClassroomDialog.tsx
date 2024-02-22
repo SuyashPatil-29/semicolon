@@ -114,7 +114,7 @@ export default function JoinClassroomDialog({ classroom, userId }: Props) {
               )}
             />
             <DialogFooter>
-              <Button type="submit">Submit</Button>
+              <Button type="submit" disabled={!form.formState.isValid} isLoading={form.formState.isSubmitting}>Submit</Button>
             </DialogFooter>
           </form>
         </Form>

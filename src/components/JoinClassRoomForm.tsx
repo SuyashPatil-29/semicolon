@@ -22,12 +22,12 @@ const JoinClassRoomForm = ({ classrooms, userData }: Props) => {
   return (
     <div className="pt-10 pb-14">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-medium text-gray-300">
+        <h1 className="md:text-xl text-lg font-medium dark:text-gray-300 text-neutral-700">
           Looks like you haven&apos;t joined a classroom yet. Let&apos;s get you
           started.
         </h1>
       </div>
-      <p className="text-muted-foreground text-sm pb-8">
+      <p className="text-muted-foreground md:text-sm text-xs pb-8">
         Click on the classroom you want to join {userData.access !== "STUDENT" && <span>or create one.</span>}
       </p>
       {classrooms.length > 0 && (

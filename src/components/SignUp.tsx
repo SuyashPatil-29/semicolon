@@ -61,7 +61,7 @@ const SignUp = () => {
           title: "Account already exists",
           description: error.response.data,
           variant: "destructive",
-          action : <Link href="/login" className={buttonVariants()}>Login</Link>
+          action : <Link href="/sign-in" className={buttonVariants()}>Login</Link>
         })
       } else if (error.response.status === 422) {
         return toast({
@@ -153,7 +153,7 @@ const SignUp = () => {
             )}
           />
           <div className="flex flex-col gap-4">
-            <Button type="submit" className="w-full">
+            <Button type="submit" isLoading={form.formState.isSubmitting} className="w-full">
               {" "}
               Submit
             </Button>

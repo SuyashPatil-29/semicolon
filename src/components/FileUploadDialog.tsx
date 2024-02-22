@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -8,21 +8,37 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { MultiFileDropzoneUsage } from "./MultiFileDropzoneUsage"
+} from "@/components/ui/dialog";
+import { MultiFileDropzoneUsage } from "./MultiFileDropzoneUsage";
 
-import {User} from "@prisma/client"
-import { Pick } from "@prisma/client/runtime/library"
+import { User } from "@prisma/client";
+import { Pick } from "@prisma/client/runtime/library";
+import { Plus } from "lucide-react";
 
 type Props = {
-  user : Pick<User, "name" | "id" | "usn" | "access">
-}
+  user: Pick<User, "name" | "id" | "usn" | "access">;
+};
 
-export default function FileUploadDialog({user}: Props) {
+export default function FileUploadDialog({ user }: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="w-[175px]" variant="default">Upload</Button>
+        <div>
+          <Button
+            className="md:font-semibold text-sm md:block hidden"
+            variant="default"
+            size="sm"
+          >
+            Create Subject
+          </Button>
+          <Button
+            className="font-semibold text-sm md:hidden block"
+            variant="default"
+            size="sm"
+          >
+            <Plus className="font-black" />
+          </Button>
+        </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
@@ -31,7 +47,7 @@ export default function FileUploadDialog({user}: Props) {
             Drag your files or click to select files
           </DialogDescription>
         </DialogHeader>
-        <MultiFileDropzoneUsage user={user}/>
+        <MultiFileDropzoneUsage user={user} />
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
             <Button type="button" variant="secondary">
@@ -41,6 +57,5 @@ export default function FileUploadDialog({user}: Props) {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
-

@@ -60,3 +60,35 @@ export async function DELETE(req: Request, { params: { classroomId } }: { params
     return new Response("Failed to leave classroom", { status: 500 });
   }
 }
+
+export async function GET(req:Request, { params: { classroomId } }: { params: { classroomId: string } }) {
+  const session = await getServerSession(authOptions);
+  if (!session) return new Response("Unauthorized", { status: 401 });
+  try {
+    const classroom = await db.classroom.findUnique({
+      where:{
+        id : classroomId,
+        users: {
+          some: {
+            userId: session.user.id
+          }
+        }
+      },
+      include:{
+        subjects: {
+          include: {
+            documents: true,
+          }
+        },
+        users: true,
+        admin: true
+      }
+    })
+    console.log("classroom data", classroom);
+    if(!classroom) return new Response("Classroom not found", { status: 404 });
+    return new Response(JSON.stringify(classroom), { status: 200 });
+  } catch (error) {
+    console.log("GET /api/classroom error: ", error);
+    return new Response("Failed to get classroom data", { status: 500 });
+  }
+}

@@ -8,6 +8,7 @@ import { Classroom, Subject, User } from "@prisma/client";
 import { LoadingState } from "./LoadingState";
 import MyClassroom from "./MyClassroom";
 import StudentClassroom from "./StudentClassroom";
+import { EmptyAlert } from "./EmptyAlert";
 
 type Props = {};
 export type ClassroomWithDetails = Classroom & {
@@ -39,7 +40,7 @@ const UserData = (props: Props) => {
 
   console.log(userData);
   if (!classrooms) return <LoadingState />;
-  if (!userData?.classrooms) return <LoadingState />;
+  if (!userData?.classrooms) return <EmptyAlert />;
 
   return (
     <div>

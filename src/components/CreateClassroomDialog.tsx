@@ -25,6 +25,7 @@ import {
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "./ui/use-toast";
+import {Plus} from "lucide-react"
 
 const formSchema = z.object({
   classroomName: z.string().min(2, {
@@ -66,9 +67,14 @@ export default function CreateClassroomDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="font-semibold" variant="default">
+        <div>
+        <Button className="md:font-semibold text-sm md:block hidden" variant="default" size="sm">
           Create Classroom
         </Button>
+        <Button className="font-semibold text-sm md:hidden block" variant="default" size="sm">
+          <Plus className="font-black"/>
+        </Button>
+        </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -113,7 +119,7 @@ export default function CreateClassroomDialog() {
           )}
         />
       <DialogFooter>
-        <Button type="submit" formAction="submit">Create</Button>
+        <Button type="submit" isLoading={form.formState.isSubmitting} formAction="submit">Create</Button>
       </DialogFooter>
       </form>
     </Form>

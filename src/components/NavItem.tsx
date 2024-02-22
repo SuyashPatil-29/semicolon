@@ -19,7 +19,7 @@ const NavItem = ({ ...props }: Props) => {
     <Link
       className={cn(buttonVariants({ variant: "link" }),
         "dark:text-[rgb(195,194,194)] md:text-base text-xl dark:hover:text-white w-[100px] text-neutral-600 hover:text-black",
-        url.includes(props.linkto!) && "dark:text-white text-black"
+        url.includes(props.linkto!) && "dark:text-white text-black underline-offset-4 underline",
       )}
       {...props}
     >

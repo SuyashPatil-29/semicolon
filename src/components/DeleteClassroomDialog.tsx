@@ -12,23 +12,31 @@ import axios from "axios";
 import { toast } from "./ui/use-toast";
 import { Trash } from "lucide-react";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { useState } from "react";
 
 type Props = {
   classroomId: string;
 };
 
 export default function DeleteClassroomDialog({ classroomId }: Props) {
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
   const onSubmit = async () => {
     try {
+      setIsButtonLoading(true);
       const { data } = await axios.delete(`/api/classroom/${classroomId}`);
       if (data) {
         toast({
           title: "Deleted",
           description: "Classroom deleted successfully",
         });
-        window.location.reload();
+        // Set a timeout for 1 second before reloading the page
+        setTimeout(() => {
+          setIsButtonLoading(false);
+          window.location.reload();
+        }, 500);
       }
     } catch (error) {
+      setIsButtonLoading(false);
       toast({
         title: "Error",
         description: "Failed to delete classroom",
@@ -51,11 +59,9 @@ export default function DeleteClassroomDialog({ classroomId }: Props) {
           </DialogTitle>
           <DialogDescription>This action cannot be undone.</DialogDescription>
         </DialogHeader>
-        <DialogClose asChild>
-          <Button type="button" onClick={onSubmit} variant="default">
-            Delete
-          </Button>
-        </DialogClose>
+        <Button type="button" onClick={onSubmit} isLoading={isButtonLoading} variant="default">
+          Delete
+        </Button>
       </DialogContent>
     </Dialog>
   );

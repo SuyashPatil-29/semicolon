@@ -1,5 +1,4 @@
 import React from "react";
-import { Card } from "./ui/card";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
@@ -16,7 +15,6 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -50,7 +48,7 @@ function MyClassroom({ classrooms, userData, allClassrooms }: Props) {
         My Classrooms
       </h1>
       <Table>
-        <TableCaption>A list of the classrooms you have joined</TableCaption>
+        <TableCaption className="pb-4">A list of the classrooms you have joined</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="text-left w-1/3">Classroom Name</TableHead>
@@ -105,13 +103,13 @@ function MyClassroom({ classrooms, userData, allClassrooms }: Props) {
       </Table>
 
       {allClassrooms && allClassrooms.length > classrooms.length && (
-        <>
-          <Separator className="my-14" />
+        <div className="md:pb-14 pb-6">
+          <Separator className="md:my-14 my-6" />
           <h1 className="text-xl dark:text-gray-200 text-neutral-700 font-semibold pb-4">
             All Classrooms
           </h1>
-          <Table>
-            <TableCaption>A list of the classrooms you can join</TableCaption>
+          <Table >
+            <TableCaption className="pb-4">A list of the classrooms you can join</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead className="text-left w-1/3">
@@ -153,7 +151,7 @@ function MyClassroom({ classrooms, userData, allClassrooms }: Props) {
                   ))}
             </TableBody>
           </Table>
-        </>
+        </div>
       )}
     </div>
   );
