@@ -53,7 +53,7 @@ export default function LeaveClassroomDialog({ classroomId }: Props) {
           <LogOut className="h-4 w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent  className="md:max-w-[425px] max-w-[350px]">
         <DialogHeader>
           <DialogTitle>
             Are you sure you want to leave this classroom?

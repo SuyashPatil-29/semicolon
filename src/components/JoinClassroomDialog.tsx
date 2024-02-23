@@ -90,7 +90,7 @@ export default function JoinClassroomDialog({ classroom, userId, userAccess }: P
       <DialogTrigger asChild>
         <Button variant="ghost">Join</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent  className="md:max-w-[425px] max-w-[350px]">
         <DialogHeader>
           <DialogTitle>
             Are you sure you want to join {classroom.name}?

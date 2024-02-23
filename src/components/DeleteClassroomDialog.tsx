@@ -11,7 +11,6 @@ import {
 import axios from "axios";
 import { toast } from "./ui/use-toast";
 import { Trash } from "lucide-react";
-import { DialogClose } from "@radix-ui/react-dialog";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -55,7 +54,7 @@ export default function DeleteClassroomDialog({ classroomId }: Props) {
           <Trash className="h-4 w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent  className="md:max-w-[425px] max-w-[350px]">
         <DialogHeader>
           <DialogTitle>
             Are you sure you want to delete this classroom?

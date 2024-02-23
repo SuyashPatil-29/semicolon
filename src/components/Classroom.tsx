@@ -9,9 +9,9 @@ import Link from "next/link";
 import { Card } from "./ui/card";
 import { Input } from "./ui/input";
 import { EmptyAlert } from "./EmptyAlert";
-import UserData from "./UserData";
 import DeleteClassroomDialog from "./DeleteClassroomDialog";
 import LeaveClassroomDialog from "./LeaveClassroomDialog";
+import { buttonVariants } from "./ui/button";
 
 type Props = {
   classroomId: string;
@@ -72,7 +72,8 @@ const Classroom = ({ classroomId, user }: Props) => {
       <div className="flex items-center justify-between">
 
         <h1 className="text-2xl font-bold">{classroomData.name}</h1>
-        <div className="flex items-center gap-2"> 
+        <div className="flex items-center gap-2">
+        <Link href={`/dashboard`} className={buttonVariants()}>Back</Link>  
         {user.access !== "STUDENT" && user.access !== "CR" && <CreateSubjectDialog classroomId={classroomId} />}
         {user.id === classroomData.adminId ? <DeleteClassroomDialog classroomId={classroomId}/> : <LeaveClassroomDialog classroomId={classroomId}/>}
         </div>

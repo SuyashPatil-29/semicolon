@@ -76,7 +76,7 @@ export default function CreateClassroomDialog() {
         </Button>
         </div>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent  className="md:max-w-[530px] max-w-[350px]">
         <DialogHeader>
           <DialogTitle>Create a new classroom</DialogTitle>
           <DialogDescription>

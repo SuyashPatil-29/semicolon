@@ -40,7 +40,7 @@ export default function FileUploadDialog({ user }: Props) {
           </Button>
         </div>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent  className="md:max-w-[425px] max-w-[350px]">
         <DialogHeader>
           <DialogTitle>Upload Files</DialogTitle>
           <DialogDescription>
