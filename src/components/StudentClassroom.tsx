@@ -24,7 +24,6 @@ const StudentClassroom = ({userData}: Props) => {
     <div className="pb-14">
       <h1 className="text-xl dark:text-gray-200 text-neutral-700 font-semibold pt-8 pb-4">My Classrooms</h1>
           <Table>
-        <TableCaption>A list of the classrooms you have joined</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="text-left w-1/3">Classroom Name</TableHead>

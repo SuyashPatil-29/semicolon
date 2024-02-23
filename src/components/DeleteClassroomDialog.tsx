@@ -13,12 +13,14 @@ import { toast } from "./ui/use-toast";
 import { Trash } from "lucide-react";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Props = {
   classroomId: string;
 };
 
 export default function DeleteClassroomDialog({ classroomId }: Props) {
+  const router = useRouter()
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const onSubmit = async () => {
     try {
@@ -32,6 +34,7 @@ export default function DeleteClassroomDialog({ classroomId }: Props) {
         // Set a timeout for 1 second before reloading the page
         setTimeout(() => {
           setIsButtonLoading(false);
+          router.push("/dashboard")
           window.location.reload();
         }, 500);
       }

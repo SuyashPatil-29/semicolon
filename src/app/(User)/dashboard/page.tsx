@@ -3,7 +3,6 @@ import UserData from "@/components/UserData";
 import { Separator } from "@/components/ui/separator";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 import React from "react";
 
 const StudentDashboard = async () => {
