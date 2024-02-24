@@ -17,7 +17,7 @@ export async function PUT(req: Request) {
   }
 
   try {
-    const classroom = await db.classroom.findUnique({ where: { id: classroomId } });
+    const classroom = await db.classroom.findUnique({ where: { id: classroomId }, include: { subjects: true } });
     if (!classroom) {
       return new Response(JSON.stringify({ error: "Classroom not found" }), { status: 404 });
     }
