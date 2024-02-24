@@ -6,6 +6,11 @@ import { getServerSession } from "next-auth"
 
 export async function GET(req:Request, { params }: { params: { subjectId: string } }) {
   const subjectId = params.subjectId
+  const session = await getServerSession(authOptions);
+  if(!session?.user){
+    return new Response("Unauthorized", { status: 401 });
+  }
+
   try {
     const documents = await db.subject.findUnique({
       where: {
@@ -13,8 +18,18 @@ export async function GET(req:Request, { params }: { params: { subjectId: string
       },
       include: {
         documents: true,
+        classroom: {
+          include: {
+            users: true
+          }
+        },
       }
     })
+
+    const isUserInClassroom = documents?.classroom?.users.some(user => user.userId === session?.user.id)
+
+    if(!isUserInClassroom) return new Response("User is not a member", { status: 401 });
+
     if (documents) {
       return new Response(JSON.stringify(documents), { status: 200 })
     }

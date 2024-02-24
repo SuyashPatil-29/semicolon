@@ -15,6 +15,8 @@ import DocumentUploadDialog from "./DocumentUploadDialog";
 import { access } from "@prisma/client";
 import Link from "next/link";
 import DeleteFileDialog from "./DeleteFileDialog";
+import { useRouter } from "next/navigation";
+import { toast } from "./ui/use-toast";
 
 type Props = {
   subjectId: string;
@@ -25,11 +27,22 @@ type Props = {
 };
 
 const SubjectDocumentTable = ({ subjectId, classroomId,userName,userAccess,userId }: Props) => {
-  const { data: files, isLoading, isFetching, isError } = useQuery({
+  const router = useRouter();
+  const { data: files, isError } = useQuery({
     queryKey: ["files"],
     queryFn: async () => {
+      try {
       const { data } = await axios.get(`/api/subject/${subjectId}`);
       return data.documents as AimlFileUploadRequest[];
+      } catch (error : any) {
+        if(error.response.status === 401 || error.response.data === "User is not a member"){
+          toast({
+            description: "You are not authorized to access this classroom. Join the classroom to access it.",
+            variant: "destructive",
+          });
+          router.push(`/dashboard`);
+        } 
+      }
     },
     refetchIntervalInBackground: true,
     refetchInterval: 1000,

@@ -87,6 +87,15 @@ export async function GET(req:Request, { params: { classroomId } }: { params: { 
   const session = await getServerSession(authOptions);
   if (!session) return new Response("Unauthorized", { status: 401 });
   try {
+    const isUserInClassroom = await db.classroomUser.findFirst({
+      where: {
+        userId: session.user.id,
+        classroomId: classroomId
+      }
+    })
+
+    if(!isUserInClassroom) return new Response("User is not a member", { status: 401 });
+
     const classroom = await db.classroom.findUnique({
       where:{
         id : classroomId,

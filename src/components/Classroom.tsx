@@ -12,6 +12,8 @@ import { EmptyAlert } from "./EmptyAlert";
 import DeleteClassroomDialog from "./DeleteClassroomDialog";
 import LeaveClassroomDialog from "./LeaveClassroomDialog";
 import { buttonVariants } from "./ui/button";
+import { toast } from "./ui/use-toast";
+import { redirect, useRouter } from "next/navigation";
 
 type Props = {
   classroomId: string;
@@ -25,7 +27,7 @@ type Props = {
 
 type ExtendedSubject = {
   classroomId: string;
-  documents: { id: string; name: string; }[];
+  documents: { id: string; name: string }[];
   id: string;
   name: string;
 };
@@ -41,24 +43,42 @@ type ClassroomWithDetails = {
   name: string;
   password: string;
   subjects: ExtendedSubject[];
-  users: { id: string; name: string; }[];
+  users: { id: string; name: string }[];
 };
 
 const Classroom = ({ classroomId, user }: Props) => {
+  const router = useRouter();
   const { data: classroomData, isLoading } = useQuery<ClassroomWithDetails>({
     queryKey: ["classroomData", classroomId],
     queryFn: async () => {
-      const { data } = await axios.get(`/api/classroom/${classroomId}`);
-      return data;
+      try {
+        const { data } = await axios.get(`/api/classroom/${classroomId}`);
+        return data;
+      } catch (error: any) {
+        console.log("Erroorr", error);
+        if (
+          error.response.status === 401 ||
+          error.response.data === "User is not a member"
+        ) {
+          toast({
+            title: "Unauthorized",
+            description: "You are not authorized to access this classroom",
+            variant: "destructive",
+          });
+          router.push("/dashboard");
+        }
+      }
     },
   });
 
-  const [filteredSubjects, setFilteredSubjects] = useState<ExtendedSubject[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredSubjects, setFilteredSubjects] = useState<ExtendedSubject[]>(
+    []
+  );
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     if (classroomData?.subjects) {
-      const filtered = classroomData.subjects.filter(subject =>
+      const filtered = classroomData.subjects.filter((subject) =>
         subject.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
       setFilteredSubjects(filtered);
@@ -70,12 +90,19 @@ const Classroom = ({ classroomId, user }: Props) => {
   return (
     <div>
       <div className="flex items-center justify-between">
-
         <h1 className="text-2xl font-bold">{classroomData.name}</h1>
         <div className="flex items-center gap-2">
-        <Link href={`/dashboard`} className={buttonVariants()}>Back</Link>  
-        {user.access !== "STUDENT" && user.access !== "CR" && <CreateSubjectDialog classroomId={classroomId} />}
-        {user.id === classroomData.adminId ? <DeleteClassroomDialog classroomId={classroomId}/> : <LeaveClassroomDialog classroomId={classroomId}/>}
+          <Link href={`/dashboard`} className={buttonVariants()}>
+            Back
+          </Link>
+          {user.access !== "STUDENT" && user.access !== "CR" && (
+            <CreateSubjectDialog classroomId={classroomId} />
+          )}
+          {user.id === classroomData.adminId ? (
+            <DeleteClassroomDialog classroomId={classroomId} />
+          ) : (
+            <LeaveClassroomDialog classroomId={classroomId} />
+          )}
         </div>
       </div>
       <Separator className="mt-3 mb-6" />
@@ -92,18 +119,21 @@ const Classroom = ({ classroomId, user }: Props) => {
       )}
 
       <div className="grid md:grid-cols-3 grid-cols-1 gap-6 mt-6 pb-14">
-        {classroomData.subjects.length > 0 && filteredSubjects.map((subject) => (
-          <Link
-            href={`/classrooms/${classroomId}/${subject.id}`}
-            className="cursor-pointer border-white border rounded-xl"
-            key={subject.id}
-          >
-            <Card className="flex flex-col items-start justify-start p-8 rounded-xl dark:bg-[rgb(35,35,35)]/100">
-              <h1 className="text-xl font-bold">{subject.name}</h1>
-              <h1 className="text-base">Number of Documents: {subject.documents.length}</h1>
-            </Card>
-          </Link>
-        ))}
+        {classroomData.subjects.length > 0 &&
+          filteredSubjects.map((subject) => (
+            <Link
+              href={`/classrooms/${classroomId}/${subject.id}`}
+              className="cursor-pointer border-white border rounded-xl"
+              key={subject.id}
+            >
+              <Card className="flex flex-col items-start justify-start p-8 rounded-xl dark:bg-[rgb(35,35,35)]/100">
+                <h1 className="text-xl font-bold">{subject.name}</h1>
+                <h1 className="text-base">
+                  Number of Documents: {subject.documents.length}
+                </h1>
+              </Card>
+            </Link>
+          ))}
       </div>
     </div>
   );
