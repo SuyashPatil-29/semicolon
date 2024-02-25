@@ -19,15 +19,15 @@ function GridBackgroundDemo() {
             Manage files and resources in one place for your class with ease.
           </p>
           <div className="flex gap-5 w-full">
-            <Link
-              href="/teacher/sign-up"
-              className={cn(
-                buttonVariants(),
-                "w-1/3 dark:bg-white bg-black rounded-lg font-semibold",
-              )}
-            >
-              Teacher Sign Up
-            </Link>
+            {/* <Link */}
+            {/*   href="/teacher/sign-up" */}
+            {/*   className={cn( */}
+            {/*     buttonVariants(), */}
+            {/*     "w-1/3 dark:bg-white bg-black rounded-lg font-semibold", */}
+            {/*   )} */}
+            {/* > */}
+            {/*   Teacher Sign Up */}
+            {/* </Link> */}
             <Link
               href="/sign-up"
               className={cn(

@@ -27,7 +27,12 @@ type Props = {
 };
 
 const FileTable = ({ user }: Props) => {
-  const { data: files, isLoading, isFetching, isError } = useQuery({
+  const {
+    data: files,
+    isLoading,
+    isFetching,
+    isError,
+  } = useQuery({
     queryKey: ["files"],
     queryFn: async () => {
       const { data } = await axios.get("/api/aiml-library");
@@ -37,7 +42,9 @@ const FileTable = ({ user }: Props) => {
     refetchInterval: 1000,
   });
 
-  const [filteredFiles, setFilteredFiles] = React.useState<AimlFileUploadRequest[] | null>(null);
+  const [filteredFiles, setFilteredFiles] = React.useState<
+    AimlFileUploadRequest[] | null
+  >(null);
   const [searchStarted, setSearchStarted] = React.useState(false); // State to track if search has started
 
   console.log("files", files);
@@ -57,15 +64,21 @@ const FileTable = ({ user }: Props) => {
           onChange={(e) => {
             setSearchStarted(true); // Set search started to true on change
             setFilteredFiles(
-              files?.sort((a, b) => new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()).filter(
-                (file) =>
-                  file.name
-                    .toLowerCase()
-                    .includes(e.target.value.toLowerCase()) ||
-                  file.uploadedBy
-                    .toLowerCase()
-                    .includes(e.target.value.toLowerCase())
-              ) as AimlFileUploadRequest[]
+              files
+                ?.sort(
+                  (a, b) =>
+                    new Date(b.uploadedAt).getTime() -
+                    new Date(a.uploadedAt).getTime()
+                )
+                .filter(
+                  (file) =>
+                    file.name
+                      .toLowerCase()
+                      .includes(e.target.value.toLowerCase()) ||
+                    file.uploadedBy
+                      .toLowerCase()
+                      .includes(e.target.value.toLowerCase())
+                ) as AimlFileUploadRequest[]
             );
           }}
         />
@@ -74,7 +87,8 @@ const FileTable = ({ user }: Props) => {
 
       {isError ? (
         <ErrorAlert />
-      ) : searchStarted && filteredFiles && filteredFiles.length === 0 ? (
+      ) : (searchStarted && filteredFiles && filteredFiles.length === 0) ||
+        files?.length === 0 ? (
         <EmptyAlert message="No files found" />
       ) : filteredFiles && filteredFiles.length > 0 ? (
         <Table>
@@ -87,18 +101,29 @@ const FileTable = ({ user }: Props) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredFiles.map(({ name, fileUrl, uploadedAt, uploadedBy }, i) => (
-              <TableRow key={i}>
-                <TableCell className="font-medium w-1/2">{name}</TableCell>
-                <TableCell className="text-center">{formatDate(uploadedAt)}</TableCell>
-                <TableCell className="text-center">{uploadedBy}</TableCell>
-                <TableCell className="text-center">
-                  <a href={fileUrl} target="_blank" className={cn(buttonVariants({variant: "link"}), "w-fit" )}>
-                    Download
-                  </a>
-                </TableCell>
-              </TableRow>
-            ))}
+            {filteredFiles.map(
+              ({ name, fileUrl, uploadedAt, uploadedBy }, i) => (
+                <TableRow key={i}>
+                  <TableCell className="font-medium w-1/2">{name}</TableCell>
+                  <TableCell className="text-center">
+                    {formatDate(uploadedAt)}
+                  </TableCell>
+                  <TableCell className="text-center">{uploadedBy}</TableCell>
+                  <TableCell className="text-center">
+                    <a
+                      href={fileUrl}
+                      target="_blank"
+                      className={cn(
+                        buttonVariants({ variant: "link" }),
+                        "w-fit"
+                      )}
+                    >
+                      Download
+                    </a>
+                  </TableCell>
+                </TableRow>
+              )
+            )}
           </TableBody>
         </Table>
       ) : searchStarted ? ( // Check if search has started and no files match the search
