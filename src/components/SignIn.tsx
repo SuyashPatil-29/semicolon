@@ -18,7 +18,7 @@ import Link from "next/link";
 import { SignInRequest , SignInValidator } from "@/lib/validators/SignInValidator";
 import { signIn } from "next-auth/react";
 import { toast } from "./ui/use-toast";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const SignIn = () => {
 
