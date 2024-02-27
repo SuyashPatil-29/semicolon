@@ -38,12 +38,12 @@ function GridBackgroundDemo() {
               Student Sign Up
             </Link>
           </div>
-          <p className="md:pl-[440px] font-semibold dark:text-white text-black md:text-lg text-base whitespace-nowrap">
-            By ~{" "}
-            <span className="underline">
-              <a target="_blank" href="https://dev-suyash.vercel.app/">Suyash Patil</a>
-            </span>
-          </p>
+          {/* <p className="md:pl-[440px] font-semibold dark:text-white text-black md:text-lg text-base whitespace-nowrap"> */}
+          {/*   By ~{" "} */}
+          {/*   <span className="underline"> */}
+          {/*     <a target="_blank" href="https://dev-suyash.vercel.app/">Suyash Patil</a> */}
+          {/*   </span> */}
+          {/* </p> */}
         </div>
       </div>
     </div>

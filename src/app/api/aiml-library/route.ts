@@ -21,7 +21,7 @@ export async function POST(req: Request) {
 
     const user = await db.user.findUnique({
       where: { id: userId },
-      include: { Files : true }, // Include the user's files
+      include: { Files: true }, // Include the user's files
     });
 
     if (!user) {
@@ -43,7 +43,7 @@ export async function POST(req: Request) {
     const updatedUser = await db.user.update({
       where: { id: userId },
       data: {
-        Files : {
+        Files: {
           connect: { id: newFile.id },
         },
       },
@@ -69,7 +69,7 @@ export async function GET() {
     const files = await db.file.findMany({
       orderBy: {
         uploadedAt: "desc",
-      }
+      },
     });
     console.log("GET : /api/aiml-library", files);
     return new Response(JSON.stringify(files), { status: 200 });
