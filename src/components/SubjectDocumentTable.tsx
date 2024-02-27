@@ -23,10 +23,12 @@ type Props = {
   classroomId: string;
   userName : string;
   userAccess: access;
-  userId : string
+  userId : string;
+  className : string;
+  subjectName :string;
 };
 
-const SubjectDocumentTable = ({ subjectId, classroomId,userName,userAccess,userId }: Props) => {
+const SubjectDocumentTable = ({ subjectId, classroomId,userName,userAccess,userId, className , subjectName }: Props) => {
   const router = useRouter();
   const { data: files, isError } = useQuery({
     queryKey: ["files"],
@@ -60,7 +62,7 @@ const SubjectDocumentTable = ({ subjectId, classroomId,userName,userAccess,userI
   return (
     <div>
       <div className="flex items-center justify-between">
-      <h1 className="text-2xl font-bold">Download Documents</h1>
+      <h1 className="text-xl font-semibold">{<Link className="hover:underline underline-offset-4" href={`/classrooms/${classroomId}`}>{className}</Link>} {'>'} {subjectName}</h1>
 
       <Link href={`/classrooms/${classroomId}`}>
         <button

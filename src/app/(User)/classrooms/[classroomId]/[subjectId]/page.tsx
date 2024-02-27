@@ -1,5 +1,6 @@
 import SubjectDocumentTable from '@/components/SubjectDocumentTable'
 import { authOptions } from '@/lib/auth'
+import { db } from '@/lib/db'
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
 import React from 'react'
@@ -19,9 +20,27 @@ const page = async ({ params:{ classroomId, subjectId} }: Props) => {
     redirect("/sign-in")
   }
 
+  const className = await db.classroom.findFirst({
+    where: {
+      id: classroomId
+    }
+  })
+
+  const subjectName = await db.subject.findFirst({
+    where: {
+      id: subjectId
+    },
+  })
+
+  console.log("className", className, "subjectName", subjectName)
+
+  if(!className || !subjectName){
+    redirect("/dashboard")
+  }
+
   return (
     <div className='dark:bg-[rgb(28,28,28)] min-h-screen h-full pt-24'>
-      <SubjectDocumentTable classroomId={classroomId} subjectId={subjectId} userName={session?.user?.name} userAccess={session?.user?.access} userId={session?.user?.id}/>
+      <SubjectDocumentTable classroomId={classroomId} subjectId={subjectId} userName={session?.user?.name} userAccess={session?.user?.access} userId={session?.user?.id} className={className.name} subjectName={subjectName.name}/>
     </div>
   )
 }
