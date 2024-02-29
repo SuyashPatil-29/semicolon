@@ -42,7 +42,9 @@ export async function POST(req: Request) {
         name: username,
         usn,
         password: hashedPassword,
-        access: access.TEACHER
+        access: access.TEACHER,
+        email: "",
+        otp: "",
       },
     });
 

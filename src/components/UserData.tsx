@@ -9,6 +9,7 @@ import { LoadingState } from "./LoadingState";
 import MyClassroom from "./MyClassroom";
 import StudentClassroom from "./StudentClassroom";
 import { EmptyAlert } from "./EmptyAlert";
+import Image from "next/image";
 
 type Props = {};
 export type ClassroomWithDetails = Classroom & {
@@ -40,7 +41,16 @@ const UserData = (props: Props) => {
 
   console.log(userData);
   if (!classrooms) return <LoadingState />;
-  if (!userData?.classrooms) return <EmptyAlert message="No classrooms found. Please create one or ask a teacher to do so."/>;
+  if (!userData?.classrooms) return (<div className="flex flex-col gap-8 w-full items-center mt-24">
+      <Image
+        alt="an image of a picture and directory icon"
+        width="300"
+        height="300"
+        src="/empty.svg"
+      />
+      <p className="text-2xl">You don't have any classroom. Please join a classroom</p>
+    </div>
+  )
 
   return (
     <div>

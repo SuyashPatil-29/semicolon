@@ -3,10 +3,11 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,9 +18,11 @@ import { Card } from "./ui/card";
 import Link from "next/link";
 import axios, { AxiosError } from "axios";
 import { toast } from "./ui/use-toast";
-import { redirect } from "next/navigation";
-import { User } from "@prisma/client";
-import { SignUpRequest , SignUpValidator } from "@/lib/validators/SignUpValidator";
+import {
+  SignUpRequest,
+  SignUpValidator,
+} from "@/lib/validators/SignUpValidator";
+import VerifyEmail from "./VerifyEmail";
 
 const SignUp = () => {
   const form = useForm<SignUpRequest>({
@@ -28,12 +31,22 @@ const SignUp = () => {
       username: "",
       usn: "",
       password: "",
+      confirmPassword: "",
+      email: "",
     },
   });
 
-  const [user, setUser] = React.useState<
-    Pick<User, "name" | "usn" | "id"> | undefined
-  >(undefined);
+  type ModifiedUser = {
+    code: string;
+    confirmPassword: string;
+    email: string;
+    password: string;
+    username: string;
+    usn: string;
+    access: string;
+  };
+
+  const [user, setUser] = React.useState<ModifiedUser | undefined>(undefined);
 
   const onSubmit = async (values: z.infer<typeof SignUpValidator>) => {
     try {
@@ -42,49 +55,36 @@ const SignUp = () => {
         usn: values.usn.trim(),
         password: values.password.trim(),
         confirmPassword: values.confirmPassword.trim(),
-      }
+        email: values.email.trim(),
+      };
 
-      const { data } = await axios.post("/api/sign-up", payload);
+      const { data } = await axios.post("/api/send-email", payload);
       console.log("data", data);
       if (data) {
         setUser(data);
         return toast({
-          title: "Account created.",
-          description: "We've created your account for you.",
+          title: "Verification email sent.",
+          description: `Check ${payload.email} for the verification link.`,
           variant: "default",
-        })
+        });
       }
     } catch (error: AxiosError | any | undefined) {
       console.log("error", error);
-      if (error.response.status === 409) {
-        return toast({
-          title: "Account already exists",
-          description: error.response.data,
-          variant: "destructive",
-          action : <Link href="/sign-in" className={buttonVariants()}>Login</Link>
-        })
-      } else if (error.response.status === 422) {
-        return toast({
-          title: "Passwords do not match",
-          description: "Please enter the same password in both fields.",
-          variant: "destructive",
-        });
-      } else {
-        return toast({
-          title: "Something went wrong",
-          description: "Please try again later.",
-          variant: "destructive",
-        });
-      }
+      return toast({
+        title: "Something went wrong",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
     }
   };
 
   if (user) {
-    return redirect("/sign-in");
+    console.log("user", user);
+    return <VerifyEmail user={user} />;
   }
 
   return (
-    <Card className="rounded-xl py-8 px-44 dark:bg-[rgb(35,35,35)] bg-neutral-200 border dark:border-[rgb(255,215,0)]/20 border-black">
+    <Card className="rounded-xl md:px-44 px-6 py-8 md:py-0 dark:bg-[rgb(35,35,35)] bg-neutral-200 border dark:border-[rgb(255,215,0)]/20 border-black">
       <div className="space-y-2 text-center pb-8">
         <h1 className="text-3xl font-bold text-black dark:text-white">
           Sign Up
@@ -94,7 +94,7 @@ const SignUp = () => {
         </p>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 ">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-w-[80vw]">
           <FormField
             control={form.control}
             name="username"
@@ -104,11 +104,31 @@ const SignUp = () => {
                 <FormControl>
                   <Input
                     type="text"
-                    className="w-[500px]"
                     placeholder="Suyash Patil"
+                    className="md:w-[500px] w-[340px]"
                     {...field}
                   />
                 </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    placeholder="patilsuyash892@gmail.com"
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>
+                  You will recieve a verification OTP and all other updates on this email.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -153,7 +173,11 @@ const SignUp = () => {
             )}
           />
           <div className="flex flex-col gap-4">
-            <Button type="submit" isLoading={form.formState.isSubmitting} className="w-full">
+            <Button
+              type="submit"
+              isLoading={form.formState.isSubmitting}
+              className="w-full"
+            >
               {" "}
               Submit
             </Button>

@@ -64,7 +64,7 @@ const SignIn = () => {
   };
 
   return (
-    <Card className="rounded-xl md:py-12 md:px-44 dark:bg-[rgb(35,35,35)] bg-neutral-200 border dark:border-[rgb(255,215,0)]/20 border-black">
+    <Card className="rounded-xl md:py-12 py-8 px-12 md:px-44 dark:bg-[rgb(35,35,35)] bg-neutral-200 border dark:border-[rgb(255,215,0)]/20 border-black">
       <div className="space-y-2 text-center ">
         <h1 className="text-3xl font-bold text-black dark:text-white">
           Sign In
@@ -74,7 +74,7 @@ const SignIn = () => {
         </p>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 ">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-w-[80vw]">
           <FormField
             control={form.control}
             name="username"
@@ -84,7 +84,7 @@ const SignIn = () => {
                 <FormControl>
                   <Input
                     type="text"
-                    className="w-[500px]"
+                    className="md:w-[500px] w-[300px]"
                     placeholder="Suyash Patil"
                     {...field}
                   />
