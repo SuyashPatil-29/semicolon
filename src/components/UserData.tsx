@@ -48,7 +48,7 @@ const UserData = (props: Props) => {
         height="300"
         src="/empty.svg"
       />
-      <p className="text-2xl">You don't have any classroom. Please join a classroom</p>
+      <p className="text-2xl">You don&apos;t have any classroom. Please join a classroom</p>
     </div>
   )
 
