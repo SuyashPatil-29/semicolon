@@ -7,7 +7,14 @@ import { Input } from "./ui/input";
 import { EmptyAlert } from "./EmptyAlert";
 import { Separator } from "@/components/ui/separator";
 import { LoadingState } from "./LoadingState";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { cn, formatDate } from "@/lib/utils";
 import { ErrorAlert } from "./ErrorAlert";
 import { buttonVariants } from "./ui/button";
@@ -17,40 +24,55 @@ import Link from "next/link";
 import DeleteFileDialog from "./DeleteFileDialog";
 import { useRouter } from "next/navigation";
 import { toast } from "./ui/use-toast";
+import Image from "next/image";
 
 type Props = {
   subjectId: string;
   classroomId: string;
-  userName : string;
+  userName: string;
   userAccess: access;
-  userId : string;
-  className : string;
-  subjectName :string;
+  userId: string;
+  className: string;
+  subjectName: string;
 };
 
-const SubjectDocumentTable = ({ subjectId, classroomId,userName,userAccess,userId, className , subjectName }: Props) => {
+const SubjectDocumentTable = ({
+  subjectId,
+  classroomId,
+  userName,
+  userAccess,
+  userId,
+  className,
+  subjectName,
+}: Props) => {
   const router = useRouter();
   const { data: files, isError } = useQuery({
     queryKey: ["files"],
     queryFn: async () => {
       try {
-      const { data } = await axios.get(`/api/subject/${subjectId}`);
-      return data.documents as AimlFileUploadRequest[];
-      } catch (error : any) {
-        if(error.response.status === 401 || error.response.data === "User is not a member"){
+        const { data } = await axios.get(`/api/subject/${subjectId}`);
+        return data.documents as AimlFileUploadRequest[];
+      } catch (error: any) {
+        if (
+          error.response.status === 401 ||
+          error.response.data === "User is not a member"
+        ) {
           toast({
-            description: "You are not authorized to access this classroom. Join the classroom to access it.",
+            description:
+              "You are not authorized to access this classroom. Join the classroom to access it.",
             variant: "destructive",
           });
           router.push(`/dashboard`);
-        } 
+        }
       }
     },
     refetchIntervalInBackground: true,
     refetchInterval: 1000,
   });
 
-  const [filteredFiles, setFilteredFiles] = React.useState<AimlFileUploadRequest[] | null>(null);
+  const [filteredFiles, setFilteredFiles] = React.useState<
+    AimlFileUploadRequest[] | null
+  >(null);
   const [searchStarted, setSearchStarted] = React.useState(false);
 
   console.log("files", files);
@@ -62,16 +84,25 @@ const SubjectDocumentTable = ({ subjectId, classroomId,userName,userAccess,userI
   return (
     <div>
       <div className="flex items-center justify-between">
-      <h1 className="text-xl font-semibold">{<Link className="hover:underline underline-offset-4" href={`/classrooms/${classroomId}`}>{className}</Link>} {'>'} {subjectName}</h1>
+        <h1 className="text-xl font-semibold">
+          {
+            <Link
+              className="hover:underline underline-offset-4"
+              href={`/classrooms/${classroomId}`}
+            >
+              {className}
+            </Link>
+          }{" "}
+          {">"} {subjectName}
+        </h1>
 
-      <Link href={`/classrooms/${classroomId}`}>
-        <button
-          className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
-        >
-          Back to classroom
-        </button>
-      </Link>
-
+        <Link href={`/classrooms/${classroomId}`}>
+          <button
+            className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
+          >
+            Back to classroom
+          </button>
+        </Link>
       </div>
       <Separator />
       <div className="flex items-center gap-2.5 pt-10 pb-6 justify-between">
@@ -81,20 +112,40 @@ const SubjectDocumentTable = ({ subjectId, classroomId,userName,userAccess,userI
           onChange={(e) => {
             setSearchStarted(true);
             setFilteredFiles(
-              files?.filter((file) =>
-                file.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
-                file.uploadedBy.toLowerCase().includes(e.target.value.toLowerCase())
+              files?.filter(
+                (file) =>
+                  file.name
+                    .toLowerCase()
+                    .includes(e.target.value.toLowerCase()) ||
+                  file.uploadedBy
+                    .toLowerCase()
+                    .includes(e.target.value.toLowerCase())
               ) || null
             );
           }}
         />
-        {userAccess !== "STUDENT" && <DocumentUploadDialog subjectId={subjectId} classroomId={classroomId} userName={userName}/>}
+        {userAccess !== "STUDENT" && (
+          <DocumentUploadDialog
+            subjectId={subjectId}
+            classroomId={classroomId}
+            userName={userName}
+          />
+        )}
       </div>
 
       {isError ? (
         <ErrorAlert />
-      ) : searchStarted && filteredFiles && filteredFiles.length === 0 || files?.length === 0  ? (
-        <EmptyAlert message="No files found" />
+      ) : (searchStarted && filteredFiles && filteredFiles.length === 0) ||
+        files?.length === 0 ? (
+        <div className="flex flex-col gap-8 w-full items-center mt-24">
+          <Image
+            alt="an image of a picture and directory icon"
+            width="300"
+            height="300"
+            src="/empty.svg"
+          />
+          <div className="text-2xl text-center">No documents uploaded. Please come back later</div>
+        </div>
       ) : filteredFiles && filteredFiles.length > 0 ? (
         <Table>
           <TableHeader>
@@ -103,29 +154,64 @@ const SubjectDocumentTable = ({ subjectId, classroomId,userName,userAccess,userI
               <TableHead className="text-center">Date</TableHead>
               <TableHead className="text-center">Uploaded By</TableHead>
               <TableHead className="text-center">Download</TableHead>
-              <TableHead className="text-center">Action</TableHead>    
+              <TableHead className="text-center">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredFiles.map(({ name, fileUrl, uploadedAt, uploadedBy, userId:fileUserId, id }, i) => (
-              <TableRow key={i}>
-                <TableCell className="font-medium w-1/2">{name}</TableCell>
-                <TableCell className="text-center">{formatDate(uploadedAt)}</TableCell>
-                <TableCell className="text-center">{uploadedBy}</TableCell>
-                <TableCell className="text-center">
-                  <a href={fileUrl} target="_blank" className={cn(buttonVariants({ variant: "link" }), "w-fit")}>
-                    Download
-                  </a>
-                </TableCell>
-                <TableCell className="text-center">
-                  {fileUserId === userId && <DeleteFileDialog fileUrl={fileUrl} subjectId={subjectId} fileId={id!}/>}
-                </TableCell>
-              </TableRow>
-            ))}
+            {filteredFiles.map(
+              (
+                {
+                  name,
+                  fileUrl,
+                  uploadedAt,
+                  uploadedBy,
+                  userId: fileUserId,
+                  id,
+                },
+                i
+              ) => (
+                <TableRow key={i}>
+                  <TableCell className="font-medium w-1/2">{name}</TableCell>
+                  <TableCell className="text-center">
+                    {formatDate(uploadedAt)}
+                  </TableCell>
+                  <TableCell className="text-center">{uploadedBy}</TableCell>
+                  <TableCell className="text-center">
+                    <a
+                      href={fileUrl}
+                      target="_blank"
+                      className={cn(
+                        buttonVariants({ variant: "link" }),
+                        "w-fit"
+                      )}
+                    >
+                      Download
+                    </a>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {fileUserId === userId && (
+                      <DeleteFileDialog
+                        fileUrl={fileUrl}
+                        subjectId={subjectId}
+                        fileId={id!}
+                      />
+                    )}
+                  </TableCell>
+                </TableRow>
+              )
+            )}
           </TableBody>
         </Table>
       ) : searchStarted ? (
-        <EmptyAlert message="No files found" />
+        <div className="flex flex-col gap-8 w-full items-center mt-24">
+      <Image
+        alt="an image of a picture and directory icon"
+        width="300"
+        height="300"
+        src="/empty.svg"
+      />
+      <div className="text-2xl text-center">No documents uploaded. Please come back later</div>
+    </div>
       ) : (
         <LoadingState />
       )}

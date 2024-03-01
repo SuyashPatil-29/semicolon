@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/table";
 import { Input } from "./ui/input"; // Ensure you have an Input component
 import { EmptyAlert } from "./EmptyAlert";
+import Image from "next/image";
 
 type Props = {
   classrooms: ClassroomWithDetails[];
@@ -24,7 +25,7 @@ const JoinClassRoomForm = ({ classrooms, userData }: Props) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   // Filter classrooms based on search query
-  const filteredClassrooms = classrooms.filter(classroom =>
+  const filteredClassrooms = classrooms.filter((classroom) =>
     classroom.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -32,11 +33,13 @@ const JoinClassRoomForm = ({ classrooms, userData }: Props) => {
     <div className="pt-10 pb-14">
       <div className="flex items-center justify-between">
         <h1 className="md:text-xl text-lg font-medium dark:text-gray-300 text-neutral-700">
-          Looks like you haven&apos;t joined a classroom yet. Let&apos;s get you started.
+          Looks like you haven&apos;t joined a classroom yet. Let&apos;s get you
+          started.
         </h1>
       </div>
       <p className="text-muted-foreground md:text-sm text-xs pb-8">
-        Click on the classroom you want to join {userData.access !== "STUDENT" && <span>or create one.</span>}
+        Click on the classroom you want to join{" "}
+        {userData.access !== "STUDENT" && <span>or create one.</span>}
       </p>
       <Input
         className="flex-1 dark:bg-[rgb(40,40,40)] bg-neutral-200 mb-6"
@@ -82,13 +85,20 @@ const JoinClassRoomForm = ({ classrooms, userData }: Props) => {
           </TableBody>
         </Table>
       ) : (
-        <EmptyAlert message={"No classrooms found matching your search."} />
+        <div className="flex flex-col gap-8 w-full items-center mt-24">
+          <Image
+            alt="an image of a picture and directory icon"
+            width="300"
+            height="300"
+            src="/empty.svg"
+          />
+          <div className="text-2xl text-center">
+            There are no classrooms yet. Please come back later.
+          </div>
+        </div>
       )}
     </div>
   );
 };
 
 export default JoinClassRoomForm;
-
-
-

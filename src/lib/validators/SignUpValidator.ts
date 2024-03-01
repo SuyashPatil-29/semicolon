@@ -5,6 +5,7 @@ export const SignUpValidator = z
     username: z.string().min(2, {
       message: "Username must be at least 2 characters.",
     }),
+    email: z.string().email({ message: "Invalid email address" }),
     usn: z
       .string()
       .min(10, {
@@ -26,4 +27,4 @@ export const SignUpValidator = z
     message: "Passwords do not match",
   });
 
-export type SignUpRequest = z.infer<typeof SignUpValidator>
+export type SignUpRequest = z.infer<typeof SignUpValidator>;

@@ -40,7 +40,8 @@ export const authOptions : NextAuthOptions = {
           id: existingUser.id,
           usn: existingUser.usn,
           name: existingUser.name,
-          access: existingUser.access
+          access: existingUser.access,
+          email: existingUser.email
         }
     }
   })
@@ -53,6 +54,7 @@ callbacks: {
       usn: token.usn as string,
       name: token.name as string,
       access: token.access as access,
+      email: token.email as string
     };
     return session;
   },
@@ -62,6 +64,7 @@ callbacks: {
       token.usn = user.usn;
       token.name = user.name;
       token.access = user.access;
+      token.email = user.email
     }
     return token;
   }

@@ -21,18 +21,14 @@ import { EmptyAlert } from "./EmptyAlert";
 import { Separator } from "@/components/ui/separator";
 import { LoadingState } from "./LoadingState";
 import { buttonVariants } from "./ui/button";
+import Image from "next/image";
 
 type Props = {
   user: Pick<User, "name" | "id" | "usn" | "access">;
 };
 
 const FileTable = ({ user }: Props) => {
-  const {
-    data: files,
-    isLoading,
-    isFetching,
-    isError,
-  } = useQuery({
+  const { data: files, isError } = useQuery({
     queryKey: ["files"],
     queryFn: async () => {
       const { data } = await axios.get("/api/aiml-library");
@@ -89,7 +85,15 @@ const FileTable = ({ user }: Props) => {
         <ErrorAlert />
       ) : (searchStarted && filteredFiles && filteredFiles.length === 0) ||
         files?.length === 0 ? (
-        <EmptyAlert message="No files found" />
+        <div className="flex flex-col gap-8 w-full items-center mt-24">
+          <Image
+            alt="an image of a picture and directory icon"
+            width="300"
+            height="300"
+            src="/empty.svg"
+          />
+          <div className="text-2xl text-center">You have no files, upload one now</div>
+        </div>
       ) : filteredFiles && filteredFiles.length > 0 ? (
         <Table>
           <TableHeader>
@@ -127,7 +131,15 @@ const FileTable = ({ user }: Props) => {
           </TableBody>
         </Table>
       ) : searchStarted ? ( // Check if search has started and no files match the search
-        <EmptyAlert message="No files found" />
+        <div className="flex flex-col gap-8 w-full items-center mt-24">
+          <Image
+            alt="an image of a picture and directory icon"
+            width="300"
+            height="300"
+            src="/empty.svg"
+          />
+          <div className="text-2xl text-center">You have no files, upload one now</div>
+        </div>
       ) : (
         <LoadingState />
       )}

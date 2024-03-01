@@ -14,6 +14,7 @@ import LeaveClassroomDialog from "./LeaveClassroomDialog";
 import { buttonVariants } from "./ui/button";
 import { toast } from "./ui/use-toast";
 import { redirect, useRouter } from "next/navigation";
+import Image from "next/image";
 
 type Props = {
   classroomId: string;
@@ -114,7 +115,17 @@ const Classroom = ({ classroomId, user }: Props) => {
 
       {classroomData.subjects.length === 0 && (
         <div className="mt-6">
-          <EmptyAlert message="No subjects found. Come back later or create a new subject." />
+          <div className="flex flex-col gap-8 w-full items-center mt-24">
+            <Image
+              alt="an image of a picture and directory icon"
+              width="300"
+              height="300"
+              src="/empty.svg"
+            />
+            <div className="text-2xl text-center">
+              No subjects found. Come back later or create a new subject.
+            </div>
+          </div>
         </div>
       )}
 

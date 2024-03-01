@@ -18,8 +18,12 @@ import Link from "next/link";
 import axios, { AxiosError } from "axios";
 import { toast } from "./ui/use-toast";
 import { redirect } from "next/navigation";
-import { User } from "@prisma/client";
-import { SignUpRequest , SignUpValidator } from "@/lib/validators/SignUpValidator";
+import {
+  SignUpRequest,
+  SignUpValidator,
+} from "@/lib/validators/SignUpValidator";
+import VerifyTeacherEmail from "./VerifyTeacherEmail";
+import { access } from "@prisma/client";
 
 const TeacherSignUp = () => {
   const form = useForm<SignUpRequest>({
@@ -28,64 +32,62 @@ const TeacherSignUp = () => {
       username: "",
       usn: "",
       password: "",
+      email: "",
     },
   });
 
+  type ModifiedUser = {
+    code: string;
+    confirmPassword: string;
+    email: string;
+    password: string;
+    username: string;
+    usn: string;
+    access: access;
+  };
+
   const [user, setUser] = React.useState<
-    Pick<User, "name" | "usn" | "id"> | undefined
+    ModifiedUser | undefined
   >(undefined);
 
   const onSubmit = async (values: z.infer<typeof SignUpValidator>) => {
     try {
       const payload = {
+        email: values.email.trim(),
         username: values.username.trim(),
         usn: values.usn.trim(),
         password: values.password.trim(),
         confirmPassword: values.confirmPassword.trim(),
-        access: "TEACHER"
-      }
+        access: "TEACHER",
+      };
 
-      const { data } = await axios.post("/api/teacher/sign-up", payload);
+      const { data } = await axios.post("/api/send-email", payload);
       console.log("data", data);
-      if (data) {
+if (data) {
         setUser(data);
         return toast({
-          title: "Account created.",
-          description: "We've created your account for you.",
+          title: "Verification email sent.",
+          description: `Check ${payload.email} for the verification link.`,
           variant: "default",
-        })
+        });
       }
     } catch (error: AxiosError | any | undefined) {
       console.log("error", error);
-      if (error.response.status === 409) {
-        return toast({
-          title: "Account already exists",
-          description: error.response.data,
-          variant: "destructive",
-          action : <Link href="/login" className={buttonVariants()}>Login</Link>
-        })
-      } else if (error.response.status === 422) {
-        return toast({
-          title: "Passwords do not match",
-          description: "Please enter the same password in both fields.",
-          variant: "destructive",
-        });
-      } else {
         return toast({
           title: "Something went wrong",
           description: "Please try again later.",
           variant: "destructive",
         });
-      }
     }
   };
 
   if (user) {
-    return redirect("/sign-in");
+    console.log("user", user);
+    return <VerifyTeacherEmail user={user}/>;
   }
 
   return (
-    <Card className="rounded-xl py-12 px-44 dark:bg-[rgb(35,35,35)] bg-neutral-200 border dark:border-[rgb(255,215,0)]/20 border-black">
+    <Card className="rounded-xl py-8 px-44 dark:bg-[rgb(35,35,35)] bg-neutral-200 border dark:border-[rgb(255,215,0)]/20 border-black">
       <div className="space-y-2 text-center pb-8">
         <h1 className="text-3xl font-bold text-black dark:text-white">
           Sign Up
@@ -116,12 +118,29 @@ const TeacherSignUp = () => {
           />
           <FormField
             control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    placeholder="patilsuyash892@gmail.com"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="usn"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Ph No</FormLabel>
+                <FormLabel>USN</FormLabel>
                 <FormControl>
-                  <Input placeholder="7483543757" {...field} />
+                  <Input placeholder="1NH22AI170" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -154,7 +173,11 @@ const TeacherSignUp = () => {
             )}
           />
           <div className="flex flex-col gap-4">
-            <Button type="submit" className="w-full">
+            <Button
+              type="submit"
+              isLoading={form.formState.isSubmitting}
+              className="w-full"
+            >
               {" "}
               Submit
             </Button>

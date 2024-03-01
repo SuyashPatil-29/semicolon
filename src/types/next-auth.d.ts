@@ -6,6 +6,7 @@ declare module "next-auth" {
     name: string;
     usn: string;
     access: access;
+    email: string
   }
   interface Session {
     user: {
@@ -13,6 +14,7 @@ declare module "next-auth" {
       usn: string;
       access: access
       id: string;
+      email: string
     };
   }
 }

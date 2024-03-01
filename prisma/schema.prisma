@@ -13,6 +13,8 @@ model User {
   name         String
   password     String
   access       access      @default(STUDENT)
+  email        String
+  otp          String
   auth_session Session[]
   key          Key[]
   Documents    Document[]
