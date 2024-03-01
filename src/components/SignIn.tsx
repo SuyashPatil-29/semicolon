@@ -41,10 +41,11 @@ const SignIn = () => {
       password: values.password.trim(),
     });
 
+      console.log(signInData ,"signInData.error")
     if(signInData?.error === "CredentialsSignin"){
       return toast({
-        title: "Account not found",
-        description: "Account does not exist",
+        title: "Invalid credentials",
+        description: "Please check your credentials and try again.",
         variant: "destructive",
         action : <Link href="/sign-up" className={buttonVariants({variant: "default"})}>Create Account</Link>
       })
@@ -63,8 +64,8 @@ const SignIn = () => {
   };
 
   return (
-    <Card className="rounded-xl md:py-12 py-8 px-12 md:px-44 dark:bg-[rgb(35,35,35)] bg-neutral-200 border dark:border-[rgb(255,215,0)]/20 border-black">
-      <div className="space-y-2 text-center ">
+    <Card className="rounded-xl md:py-12 py-8 md:mt-0  mt-16 px-6 md:px-44 dark:bg-[rgb(35,35,35)] bg-neutral-200 border dark:border-[rgb(255,215,0)]/20 border-black">
+      <div className="space-y-2 text-center pb-8">
         <h1 className="text-3xl font-bold text-black dark:text-white">
           Sign In
         </h1>
