@@ -4,9 +4,7 @@ import {
   type FileState,
 } from '@/components/MultiFileDropzone';
 import { useEdgeStore } from '@/lib/edgestore';
-import { AimlFileUploadRequest } from '@/lib/validators/AimlFileUploadValidator';
 import { DocumentUploadRequest } from '@/lib/validators/DocumentUploadValidator';
-import { User } from '@prisma/client';
 import axios from 'axios';
 import { useState } from 'react';
 
@@ -69,9 +67,7 @@ export function MultiDocumentDropzoneUsage({classroomId,subjectId , userName}: P
                 }
 
                 await axios.post(`/api/subject/${subjectId}`, payload)
-                console.log(res);
               } catch (err) {
-                console.log(err);
                 updateFileProgress(addedFileState.key, 'ERROR');
               }
             }),

@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useEffect } from "react";
 import { Input } from "./ui/input";
-import { EmptyAlert } from "./EmptyAlert";
 import { Separator } from "@/components/ui/separator";
 import { LoadingState } from "./LoadingState";
 import {
@@ -75,7 +74,6 @@ const SubjectDocumentTable = ({
   >(null);
   const [searchStarted, setSearchStarted] = React.useState(false);
 
-  console.log("files", files);
 
   useEffect(() => {
     setFilteredFiles(files!);

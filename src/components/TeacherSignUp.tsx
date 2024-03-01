@@ -3,10 +3,11 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,7 +18,6 @@ import { Card } from "./ui/card";
 import Link from "next/link";
 import axios, { AxiosError } from "axios";
 import { toast } from "./ui/use-toast";
-import { redirect } from "next/navigation";
 import {
   SignUpRequest,
   SignUpValidator,
@@ -33,6 +33,7 @@ const TeacherSignUp = () => {
       usn: "",
       password: "",
       email: "",
+      confirmPassword: "",
     },
   });
 
@@ -46,9 +47,7 @@ const TeacherSignUp = () => {
     access: access;
   };
 
-  const [user, setUser] = React.useState<
-    ModifiedUser | undefined
-  >(undefined);
+  const [user, setUser] = React.useState<ModifiedUser | undefined>(undefined);
 
   const onSubmit = async (values: z.infer<typeof SignUpValidator>) => {
     try {
@@ -62,8 +61,7 @@ const TeacherSignUp = () => {
       };
 
       const { data } = await axios.post("/api/send-email", payload);
-      console.log("data", data);
-if (data) {
+      if (data) {
         setUser(data);
         return toast({
           title: "Verification email sent.",
@@ -72,22 +70,20 @@ if (data) {
         });
       }
     } catch (error: AxiosError | any | undefined) {
-      console.log("error", error);
-        return toast({
-          title: "Something went wrong",
-          description: "Please try again later.",
-          variant: "destructive",
-        });
+      return toast({
+        title: "Something went wrong",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
     }
   };
 
   if (user) {
-    console.log("user", user);
-    return <VerifyTeacherEmail user={user}/>;
+    return <VerifyTeacherEmail user={user} />;
   }
 
   return (
-    <Card className="rounded-xl py-8 px-44 dark:bg-[rgb(35,35,35)] bg-neutral-200 border dark:border-[rgb(255,215,0)]/20 border-black">
+    <Card className="rounded-xl md:px-44 px-6 py-8 md:py-0 dark:bg-[rgb(35,35,35)] bg-neutral-200 border dark:border-[rgb(255,215,0)]/20 border-black">
       <div className="space-y-2 text-center pb-8">
         <h1 className="text-3xl font-bold text-black dark:text-white">
           Sign Up
@@ -97,7 +93,10 @@ if (data) {
         </p>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 ">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4 max-w-[80vw]"
+        >
           <FormField
             control={form.control}
             name="username"
@@ -107,8 +106,8 @@ if (data) {
                 <FormControl>
                   <Input
                     type="text"
-                    className="w-[500px]"
                     placeholder="Suyash Patil"
+                    className="md:w-[500px] w-[340px]"
                     {...field}
                   />
                 </FormControl>
@@ -129,6 +128,11 @@ if (data) {
                     {...field}
                   />
                 </FormControl>
+                <FormDescription>
+                  You will recieve a verification OTP and all other updates on
+                  this email.
+                </FormDescription>
+
                 <FormMessage />
               </FormItem>
             )}

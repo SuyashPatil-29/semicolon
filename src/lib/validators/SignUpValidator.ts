@@ -5,7 +5,11 @@ export const SignUpValidator = z
     username: z.string().min(2, {
       message: "Username must be at least 2 characters.",
     }),
-    email: z.string().email({ message: "Invalid email address" }),
+    email: z.string().email({ message: "Invalid email address" }).refine((email) => {
+      const allowedDomains = ["gmail.com", "yahoo.com", "outlook.com"];
+      const emailDomain = email.split('@')[1];
+      return allowedDomains.includes(emailDomain);
+    }, { message: "Only gmail, yahoo, or outlook email addresses are allowed" }),
     usn: z
       .string()
       .min(10, {

@@ -60,7 +60,6 @@ const SignIn = () => {
       return router.push("/dashboard");
     }
 
-    console.log(signInData);
   };
 
   return (

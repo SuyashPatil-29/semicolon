@@ -38,7 +38,6 @@ const VerifyTeacherEmail = ({ user }: VerifyEmailProps) => {
     } else {
       try {
         const { data } = await axios.post("/api/teacher/sign-up", user);
-        console.log("data", data);
         if (data) {
           setNewUser(data);
           return toast({
@@ -48,7 +47,6 @@ const VerifyTeacherEmail = ({ user }: VerifyEmailProps) => {
           });
         }
       } catch (error: AxiosError | any | undefined) {
-        console.log("error", error);
         if (error.response.status === 409) {
           return toast({
             title: "Account already exists",
@@ -82,8 +80,8 @@ const VerifyTeacherEmail = ({ user }: VerifyEmailProps) => {
   }
 
   return (
-    <div>
-      <h1 className="text-2xl text-white font-semibold mb-20">
+        <div className="flex flex-col gap-8 items-center justify-center">
+      <h1 className="text-2xl font-semibold">
         Enter the OTP sent to {user.email}
       </h1>
       <OTPInput
@@ -109,6 +107,11 @@ const VerifyTeacherEmail = ({ user }: VerifyEmailProps) => {
           </>
         )}
       />
+
+      <p>
+        Once you enter the otp the process will continue automatically. Please
+        do not refresh
+      </p>
     </div>
   );
 };

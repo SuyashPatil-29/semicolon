@@ -56,7 +56,6 @@ export default function CreateSubjectDialog({ classroomId }: Props) {
       };
       const { data } = await axios.post("/api/subject", payload);
       if (data) {
-        console.log(data);
         toast({
           title: "Subject created",
           description: `You have successfully created ${data.name}.`,
