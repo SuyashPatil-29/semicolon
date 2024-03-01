@@ -13,8 +13,8 @@ const AuthNavbar = ({user}:{user: any}) => {
       <Link href="/" className="font-bold text-2xl">SEMICOLON</Link>
       <div className="flex gap-8">
         <ModeToggle />
-        {pathname === "/sign-in" && !user && <Link href="/sign-up" className={cn(buttonVariants({variant: "default"}),"font-semibold w-[125px]")}>Sign Up</Link>}
-        {pathname === "/sign-up" && !user && <Link href="/sign-in" className={cn(buttonVariants({variant: "default"}),"font-semibold w-[125px]")}>Login</Link>}
+        {pathname === "/sign-in" && !user && <Link href="/sign-up" className={cn(buttonVariants({variant: "default"}),"font-semibold md:w-[125px]")}>Sign Up</Link>}
+        {pathname === "/sign-up" && !user && <Link href="/sign-in" className={cn(buttonVariants({variant: "default"}),"font-semibold md:w-[125px]")}>Login</Link>}
         {user && <Link href="/dashboard" className={cn(buttonVariants({variant: "default"}),"font-semibold w-[125px]")}>Dashboard</Link>}
       </div>
     </div>

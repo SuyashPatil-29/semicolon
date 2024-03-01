@@ -81,7 +81,7 @@ const SignUp = () => {
   }
 
   return (
-    <Card className="rounded-xl md:px-44 px-6 py-8 md:py-0 dark:bg-[rgb(35,35,35)] bg-neutral-200 border dark:border-[rgb(255,215,0)]/20 border-black">
+    <Card className="rounded-xl md:px-44 md:-mt-0 -mt-24 px-2 py-8 md:py-0 dark:bg-[rgb(35,35,35)] bg-neutral-200 border dark:border-[rgb(255,215,0)]/20 border-black">
       <div className="space-y-2 text-center pb-8">
         <h1 className="text-3xl font-bold text-black dark:text-white">
           Sign Up
@@ -105,7 +105,7 @@ const SignUp = () => {
                   <Input
                     type="text"
                     placeholder="Suyash Patil"
-                    className="md:w-[500px] w-[340px]"
+                    className="md:w-[500px] w-[300px]"
                     {...field}
                   />
                 </FormControl>
@@ -123,6 +123,7 @@ const SignUp = () => {
                   <Input
                     type="email"
                     placeholder="patilsuyash892@gmail.com"
+                    className="md:w-[500px] w-[300px]"
                     {...field}
                   />
                 </FormControl>
@@ -141,7 +142,11 @@ const SignUp = () => {
               <FormItem>
                 <FormLabel>USN</FormLabel>
                 <FormControl>
-                  <Input placeholder="1NH22AI170" {...field} />
+                  <Input
+                    placeholder="1NH22AI170"
+                    {...field}
+                    className="md:w-[500px] w-[300px]"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -154,7 +159,12 @@ const SignUp = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="********" type="password" {...field} />
+                  <Input
+                    placeholder="********"
+                    type="password"
+                    {...field}
+                    className="md:w-[500px] w-[300px]"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -167,7 +177,12 @@ const SignUp = () => {
               <FormItem>
                 <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="********" type="password" {...field} />
+                  <Input
+                    placeholder="********"
+                    type="password"
+                    {...field}
+                    className="md:w-[500px] w-[300px]"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
