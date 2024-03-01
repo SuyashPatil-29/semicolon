@@ -80,8 +80,8 @@ const VerifyTeacherEmail = ({ user }: VerifyEmailProps) => {
   }
 
   return (
-    <div>
-      <h1 className="text-2xl text-white font-semibold mb-20">
+        <div className="flex flex-col gap-8 items-center justify-center">
+      <h1 className="text-2xl font-semibold">
         Enter the OTP sent to {user.email}
       </h1>
       <OTPInput
@@ -107,6 +107,11 @@ const VerifyTeacherEmail = ({ user }: VerifyEmailProps) => {
           </>
         )}
       />
+
+      <p>
+        Once you enter the otp the process will continue automatically. Please
+        do not refresh
+      </p>
     </div>
   );
 };
