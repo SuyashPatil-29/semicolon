@@ -56,7 +56,6 @@ const Classroom = ({ classroomId, user }: Props) => {
         const { data } = await axios.get(`/api/classroom/${classroomId}`);
         return data;
       } catch (error: any) {
-        console.log("Erroorr", error);
         if (
           error.response.status === 401 ||
           error.response.data === "User is not a member"

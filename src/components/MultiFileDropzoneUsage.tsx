@@ -63,9 +63,7 @@ export function MultiFileDropzoneUsage({user}: Props) {
                   name : addedFiles[0].file.name
                 }
                 await axios.post("/api/aiml-library", payload)
-                console.log(res);
               } catch (err) {
-                console.log(err);
                 updateFileProgress(addedFileState.key, 'ERROR');
               }
             }),

@@ -32,8 +32,6 @@ const page = async ({ params:{ classroomId, subjectId} }: Props) => {
     },
   })
 
-  console.log("className", className, "subjectName", subjectName)
-
   if(!className || !subjectName){
     redirect("/dashboard")
   }

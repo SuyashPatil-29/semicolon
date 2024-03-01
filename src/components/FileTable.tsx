@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/table";
 import { cn, formatDate } from "@/lib/utils";
 import { ErrorAlert } from "./ErrorAlert";
-import { EmptyAlert } from "./EmptyAlert";
 import { Separator } from "@/components/ui/separator";
 import { LoadingState } from "./LoadingState";
 import { buttonVariants } from "./ui/button";
@@ -43,7 +42,6 @@ const FileTable = ({ user }: Props) => {
   >(null);
   const [searchStarted, setSearchStarted] = React.useState(false); // State to track if search has started
 
-  console.log("files", files);
 
   // Use useEffect to update filteredFiles when files data changes
   useEffect(() => {

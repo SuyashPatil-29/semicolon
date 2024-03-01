@@ -59,7 +59,6 @@ const SignUp = () => {
       };
 
       const { data } = await axios.post("/api/send-email", payload);
-      console.log("data", data);
       if (data) {
         setUser(data);
         return toast({
@@ -69,7 +68,6 @@ const SignUp = () => {
         });
       }
     } catch (error: AxiosError | any | undefined) {
-      console.log("error", error);
       return toast({
         title: "Something went wrong",
         description: "Please try again later.",
@@ -79,7 +77,6 @@ const SignUp = () => {
   };
 
   if (user) {
-    console.log("user", user);
     return <VerifyEmail user={user} />;
   }
 
@@ -94,7 +91,10 @@ const SignUp = () => {
         </p>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-w-[80vw]">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4 max-w-[80vw]"
+        >
           <FormField
             control={form.control}
             name="username"
@@ -127,7 +127,8 @@ const SignUp = () => {
                   />
                 </FormControl>
                 <FormDescription>
-                  You will recieve a verification OTP and all other updates on this email.
+                  You will recieve a verification OTP and all other updates on
+                  this email.
                 </FormDescription>
                 <FormMessage />
               </FormItem>

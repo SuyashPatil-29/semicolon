@@ -34,7 +34,6 @@ const VerifyEmail = ({ user }: VerifyEmailProps) => {
     } else {
       try {
         const { data } = await axios.post("/api/sign-up", user);
-        console.log("data", data);
         if (data) {
           setNewUser(data);
           return toast({
@@ -44,7 +43,6 @@ const VerifyEmail = ({ user }: VerifyEmailProps) => {
           });
         }
       } catch (error: AxiosError | any | undefined) {
-        console.log("error", error);
         if (error.response.status === 409) {
           return toast({
             title: "Account already exists",

@@ -8,10 +8,8 @@ import { Classroom, Subject, User } from "@prisma/client";
 import { LoadingState } from "./LoadingState";
 import MyClassroom from "./MyClassroom";
 import StudentClassroom from "./StudentClassroom";
-import { EmptyAlert } from "./EmptyAlert";
 import Image from "next/image";
 
-type Props = {};
 export type ClassroomWithDetails = Classroom & {
   admin: User;
   adminId: string;
@@ -22,7 +20,7 @@ export type ClassroomWithDetails = Classroom & {
   users: User[];
 };
 
-const UserData = (props: Props) => {
+const UserData = () => {
   const { data: userData } = useQuery({
     queryKey: ["userData"],
     queryFn: async () => {
@@ -39,7 +37,6 @@ const UserData = (props: Props) => {
     },
   });
 
-  console.log(userData);
   if (!classrooms) return <LoadingState />;
   if (!userData?.classrooms) return (<div className="flex flex-col gap-8 w-full items-center mt-24">
       <Image

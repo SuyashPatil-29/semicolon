@@ -38,7 +38,7 @@ export default function DeleteFileDialog({ fileUrl, subjectId, fileId }: Props) 
         // Set a timeout for 1 second before reloading the page
         setTimeout(() => {
           setIsButtonLoading(false);
-          // window.location.reload();
+          window.location.reload();
         }, 500);
       }
     } catch (error) {

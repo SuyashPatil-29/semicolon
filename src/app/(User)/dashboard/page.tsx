@@ -7,7 +7,6 @@ import React from "react";
 
 const StudentDashboard = async () => {
   const session = await getServerSession(authOptions);
-  console.log(session);
 
   return (
     <div className="min-h-screen h-full dark:bg-[rgb(28,28,28)]">

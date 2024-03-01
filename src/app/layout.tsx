@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/utils/themes-provider";
 import AllProviders from "@/components/AllProviders";
 import { Toaster } from "@/components/ui/toaster";
 import { EdgeStoreProvider } from "@/lib/edgestore";
-
-const inter = Inter({ subsets: ["latin"] });
+import { GeistSans } from "geist/font/sans";
+import { unstable_noStore as noStore } from "next/cache";
 
 export const metadata: Metadata = {
   title: "Semicolon",
@@ -29,20 +28,21 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  noStore();
   return (
     <html lang="en">
-      <body className={inter.className}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <AllProviders>
-              <EdgeStoreProvider>{children}</EdgeStoreProvider>
-              <Toaster />
-            </AllProviders>
-          </ThemeProvider>
+      <body className={GeistSans.className}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AllProviders>
+            <EdgeStoreProvider>{children}</EdgeStoreProvider>
+            <Toaster />
+          </AllProviders>
+        </ThemeProvider>
       </body>
     </html>
   );
