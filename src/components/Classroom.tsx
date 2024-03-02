@@ -8,12 +8,11 @@ import CreateSubjectDialog from "./CreateSubjectDialog";
 import Link from "next/link";
 import { Card } from "./ui/card";
 import { Input } from "./ui/input";
-import { EmptyAlert } from "./EmptyAlert";
 import DeleteClassroomDialog from "./DeleteClassroomDialog";
 import LeaveClassroomDialog from "./LeaveClassroomDialog";
 import { buttonVariants } from "./ui/button";
 import { toast } from "./ui/use-toast";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 type Props = {
@@ -90,9 +89,9 @@ const Classroom = ({ classroomId, user }: Props) => {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">{classroomData.name}</h1>
+        <h1 className="md:text-2xl text-xl font-bold">{classroomData.name}</h1>
         <div className="flex items-center gap-2">
-          <Link href={`/dashboard`} className={buttonVariants()}>
+          <Link href={`/dashboard`} className={buttonVariants({ variant: "default", size: "sm" })}>
             Back
           </Link>
           {user.access !== "STUDENT" && user.access !== "CR" && (
@@ -150,3 +149,4 @@ const Classroom = ({ classroomId, user }: Props) => {
 };
 
 export default Classroom;
+
