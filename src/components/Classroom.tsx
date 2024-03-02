@@ -89,9 +89,9 @@ const Classroom = ({ classroomId, user }: Props) => {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">{classroomData.name}</h1>
+        <h1 className="md:text-2xl text-xl font-bold">{classroomData.name}</h1>
         <div className="flex items-center gap-2">
-          <Link href={`/dashboard`} className={buttonVariants()}>
+          <Link href={`/dashboard`} className={buttonVariants({ variant: "default", size: "sm" })}>
             Back
           </Link>
           {user.access !== "STUDENT" && user.access !== "CR" && (

@@ -82,7 +82,7 @@ const SubjectDocumentTable = ({
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">
+        <h1 className="md:text-xl text-lg font-semibold">
           {
             <Link
               className="hover:underline underline-offset-4"
