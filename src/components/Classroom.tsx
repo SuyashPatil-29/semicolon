@@ -8,12 +8,11 @@ import CreateSubjectDialog from "./CreateSubjectDialog";
 import Link from "next/link";
 import { Card } from "./ui/card";
 import { Input } from "./ui/input";
-import { EmptyAlert } from "./EmptyAlert";
 import DeleteClassroomDialog from "./DeleteClassroomDialog";
 import LeaveClassroomDialog from "./LeaveClassroomDialog";
 import { buttonVariants } from "./ui/button";
 import { toast } from "./ui/use-toast";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 type Props = {
@@ -150,3 +149,4 @@ const Classroom = ({ classroomId, user }: Props) => {
 };
 
 export default Classroom;
+
