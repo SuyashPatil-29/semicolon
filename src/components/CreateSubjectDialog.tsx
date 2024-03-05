@@ -99,7 +99,7 @@ export default function CreateSubjectDialog({ classroomId }: Props) {
                 <FormItem>
                   <FormLabel>Subject Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Java" {...field} />
+                    <Input placeholder="Ex: Java" {...field} />
                   </FormControl>
                   <FormDescription>
                     This will be your subject name.

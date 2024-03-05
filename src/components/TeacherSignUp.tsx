@@ -106,7 +106,7 @@ const TeacherSignUp = () => {
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="Suyash Patil"
+                    placeholder="Ex: Suyash Patil"
                     className="md:w-[500px] w-[340px]"
                     {...field}
                   />
@@ -124,7 +124,7 @@ const TeacherSignUp = () => {
                 <FormControl>
                   <Input
                     type="email"
-                    placeholder="patilsuyash892@gmail.com"
+                    placeholder="Ex: patilsuyash892@gmail.com"
                     {...field}
                   />
                 </FormControl>
@@ -144,7 +144,7 @@ const TeacherSignUp = () => {
               <FormItem>
                 <FormLabel>USN</FormLabel>
                 <FormControl>
-                  <Input placeholder="1NH22AI170" {...field} />
+                  <Input placeholder="Ex: 1NH22AI170" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -6,7 +6,7 @@ import { hash } from "bcrypt";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { username, usn, password, confirmPassword } =
+    const { username, usn, password, confirmPassword, email } =
       SignUpValidator.parse(body);
 
     console.log("username", username);
@@ -43,7 +43,7 @@ export async function POST(req: Request) {
         usn,
         password: hashedPassword,
         access: access.TEACHER,
-        email: "",
+        email,
         otp: "",
       },
     });
@@ -52,7 +52,8 @@ export async function POST(req: Request) {
       id: user.id,
       name: user.name,
       usn: user.usn,
-      access: user.access
+      access: user.access,
+      email: user.email
     };
 
     return new Response(JSON.stringify(newUser), { status: 201 });
