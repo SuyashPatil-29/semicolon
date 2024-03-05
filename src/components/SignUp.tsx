@@ -104,7 +104,7 @@ const SignUp = () => {
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="Suyash Patil"
+                    placeholder="Ex: Suyash Patil"
                     className="md:w-[500px] w-[300px]"
                     {...field}
                   />
@@ -122,7 +122,7 @@ const SignUp = () => {
                 <FormControl>
                   <Input
                     type="email"
-                    placeholder="patilsuyash892@gmail.com"
+                    placeholder="Ex: patilsuyash892@gmail.com"
                     className="md:w-[500px] w-[300px]"
                     {...field}
                   />
@@ -143,7 +143,7 @@ const SignUp = () => {
                 <FormLabel>USN</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="1NH22AI170"
+                    placeholder="Ex: 1NH22AI170"
                     {...field}
                     className="md:w-[500px] w-[300px]"
                   />

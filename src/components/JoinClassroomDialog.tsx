@@ -109,7 +109,7 @@ export default function JoinClassroomDialog({ classroom, userId, userAccess }: P
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="123456" {...field} />
+                      <Input type="password" placeholder="Ex: 123456" {...field} />
                     </FormControl>
                     <FormDescription>
                       You must enter the classroom password to join.

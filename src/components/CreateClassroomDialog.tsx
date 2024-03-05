@@ -93,7 +93,7 @@ export default function CreateClassroomDialog() {
             <FormItem>
               <FormLabel>Classroom Name</FormLabel>
               <FormControl>
-                <Input placeholder="AIML-3C" {...field} />
+                <Input placeholder="Ex: AIML-3C" {...field} />
               </FormControl>
               <FormDescription>
                 This is your classroom name.
@@ -109,7 +109,7 @@ export default function CreateClassroomDialog() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="123456" {...field} />
+                <Input type="password" placeholder="Ex: 123456" {...field} />
               </FormControl>
               <FormDescription>
                 This is your classroom password.

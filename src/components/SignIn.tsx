@@ -85,7 +85,7 @@ const SignIn = () => {
                   <Input
                     type="text"
                     className="md:w-[500px] w-[300px]"
-                    placeholder="Suyash Patil"
+                    placeholder="Ex: Suyash Patil"
                     {...field}
                   />
                 </FormControl>
@@ -100,7 +100,7 @@ const SignIn = () => {
               <FormItem>
                 <FormLabel>USN / Ph No</FormLabel>
                 <FormControl>
-                  <Input placeholder="1NH22AI170" {...field} />
+                  <Input placeholder="Ex: 1NH22AI170" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
