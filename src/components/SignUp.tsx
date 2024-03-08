@@ -81,7 +81,7 @@ const SignUp = () => {
   }
 
   return (
-    <Card className="rounded-xl md:px-44 md:-mt-0 -mt-24 px-2 py-8 md:py-0 dark:bg-[rgb(35,35,35)] bg-neutral-200 border dark:border-[rgb(255,215,0)]/20 border-black">
+    <Card className="rounded-xl md:px-44 md:-mt-0 -mt-24 px-2 py-8 md:py-6 dark:bg-[rgb(15,15,15)] bg-neutral-200 border dark:border-[rgb(162,162,162)]/20 border-black">
       <div className="space-y-2 text-center pb-8">
         <h1 className="text-3xl font-bold text-black dark:text-white">
           Sign Up
@@ -93,7 +93,7 @@ const SignUp = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4 max-w-[80vw]"
+          className="md:space-y-2 space-y-4 md:max-w-[80vw] max-w-[300px] mx-auto"
         >
           <FormField
             control={form.control}
@@ -105,7 +105,7 @@ const SignUp = () => {
                   <Input
                     type="text"
                     placeholder="Ex: Suyash Patil"
-                    className="md:w-[500px] w-[300px]"
+                    className="md:w-[500px] w-full mx-auto"
                     {...field}
                   />
                 </FormControl>
@@ -123,7 +123,7 @@ const SignUp = () => {
                   <Input
                     type="email"
                     placeholder="Ex: patilsuyash892@gmail.com"
-                    className="md:w-[500px] w-[300px]"
+                    className="md:w-[500px] w-full mx-auto"
                     {...field}
                   />
                 </FormControl>
@@ -145,7 +145,7 @@ const SignUp = () => {
                   <Input
                     placeholder="Ex: 1NH22AI170"
                     {...field}
-                    className="md:w-[500px] w-[300px]"
+                    className="md:w-[500px] w-full mx-auto"
                   />
                 </FormControl>
                 <FormMessage />
@@ -163,7 +163,7 @@ const SignUp = () => {
                     placeholder="********"
                     type="password"
                     {...field}
-                    className="md:w-[500px] w-[300px]"
+                    className="md:w-[500px] w-full mx-auto"
                   />
                 </FormControl>
                 <FormMessage />
@@ -181,7 +181,7 @@ const SignUp = () => {
                     placeholder="********"
                     type="password"
                     {...field}
-                    className="md:w-[500px] w-[300px]"
+                    className="md:w-[500px] w-full mx-auto"
                   />
                 </FormControl>
                 <FormMessage />

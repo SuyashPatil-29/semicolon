@@ -37,7 +37,7 @@ const page = async ({ params:{ classroomId, subjectId} }: Props) => {
   }
 
   return (
-    <div className='dark:bg-[rgb(28,28,28)] min-h-screen h-full pt-24'>
+    <div className='dark:bg-[rgb(10,10,10)] min-h-screen h-full pt-24'>
       <SubjectDocumentTable classroomId={classroomId} subjectId={subjectId} userName={session?.user?.name} userAccess={session?.user?.access} userId={session?.user?.id} className={className.name} subjectName={subjectName.name}/>
     </div>
   )

@@ -83,7 +83,7 @@ const TeacherSignUp = () => {
   }
 
   return (
-    <Card className="rounded-xl md:px-44 px-6 py-8 md:py-0 dark:bg-[rgb(35,35,35)] bg-neutral-200 border dark:border-[rgb(255,215,0)]/20 border-black">
+    <Card className="rounded-xl md:px-44 px-6 py-8 md:py-0 dark:bg-[rgb(23,23,23)] bg-neutral-200 border dark:border-[rgb(255,215,0)]/20 border-black">
       <div className="space-y-2 text-center pb-8">
         <h1 className="text-3xl font-bold text-black dark:text-white">
           Sign Up

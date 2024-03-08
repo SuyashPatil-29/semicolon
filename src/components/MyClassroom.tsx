@@ -22,6 +22,7 @@ import {
 import { Separator } from "./ui/separator";
 import LeaveClassroomDialog from "./LeaveClassroomDialog";
 import { Input } from "./ui/input";
+import Image from "next/image";
 
 type Props = {
   classrooms: NewClassroomWithDetails[];
@@ -33,14 +34,15 @@ function MyClassroom({ classrooms, userData, allClassrooms }: Props) {
   const [searchQuery, setSearchQuery] = useState("");
 
   // Filter classrooms based on search query
-  const filteredClassrooms = classrooms.filter(classroom =>
+  const filteredClassrooms = classrooms.filter((classroom) =>
     classroom.classroom.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // Filter allClassrooms based on search query and exclude already joined classrooms
-  const filteredAllClassrooms = allClassrooms.filter(ac =>
-    !classrooms.some(c => c.classroom.id === ac.id) &&
-    ac.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredAllClassrooms = allClassrooms.filter(
+    (ac) =>
+      !classrooms.some((c) => c.classroom.id === ac.id) &&
+      ac.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   if (!classrooms || !allClassrooms || !userData) {
@@ -53,7 +55,7 @@ function MyClassroom({ classrooms, userData, allClassrooms }: Props) {
         My Classrooms
       </h1>
       <Input
-        className="flex-1 dark:bg-[rgb(40,40,40)] bg-neutral-200 my-4"
+        className="flex-1 dark:bg-[rgb(23,23,23)] bg-neutral-200 my-4"
         placeholder="Start typing to search..."
         onChange={(e) => setSearchQuery(e.target.value)}
       />
@@ -61,10 +63,14 @@ function MyClassroom({ classrooms, userData, allClassrooms }: Props) {
       {filteredClassrooms.length > 0 && (
         <div>
           <Table>
-            <TableCaption className="pb-4">A list of the classrooms you have joined</TableCaption>
+            <TableCaption className="pb-4">
+              A list of the classrooms you have joined
+            </TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-left w-1/3">Classroom Name</TableHead>
+                <TableHead className="text-left w-1/3">
+                  Classroom Name
+                </TableHead>
                 <TableHead className="text-center">Created By</TableHead>
                 <TableHead className="text-center">Members</TableHead>
                 <TableHead className="text-center">Subjects</TableHead>
@@ -75,7 +81,6 @@ function MyClassroom({ classrooms, userData, allClassrooms }: Props) {
             <TableBody>
               {filteredClassrooms.map((classroom) => (
                 <TableRow key={classroom.classroomId}>
-
                   <TableCell className="text-left font-medium">
                     {classroom.classroom.name}
                   </TableCell>
@@ -91,8 +96,7 @@ function MyClassroom({ classrooms, userData, allClassrooms }: Props) {
                   <TableCell className="text-center">
                     <Link
                       className={cn(
-                        buttonVariants({ variant: "link" }),
-                        "w-[16.666%] text-center"
+                        "w-[16.666%] text-center hover:underline underline-offset-4"
                       )}
                       href={`/classrooms/${classroom.classroomId}`}
                     >
@@ -107,24 +111,43 @@ function MyClassroom({ classrooms, userData, allClassrooms }: Props) {
                         />
                       )
                     ) : (
-                      <LeaveClassroomDialog classroomId={classroom.classroomId} />
+                      <LeaveClassroomDialog
+                        classroomId={classroom.classroomId}
+                      />
                     )}
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
-          <Separator className="md:my-14 my-6" />
         </div>
-      )
-      }
+      )}
+      {filteredClassrooms.length === 0 &&
+        filteredAllClassrooms.length === 0 && (
+          <div className="flex flex-col gap-8 w-full items-center mt-24">
+            <Image
+              alt="an image of a picture and directory icon"
+              width="300"
+              height="300"
+              src="/empty.svg"
+            />
+            <p className="text-2xl text-center">
+              You don&apos;t have any classroom. Please join a classroom
+            </p>
+          </div>
+        )}
+      {filteredClassrooms.length > 0 && filteredAllClassrooms.length > 0 && (
+        <Separator className="md:my-14 my-6" />
+      )}
       {filteredAllClassrooms.length > 0 && (
         <div className="md:pb-14 pb-6">
           <h1 className="text-xl dark:text-gray-200 text-neutral-700 font-semibold pb-4">
             All Classrooms
           </h1>
           <Table>
-            <TableCaption className="pb-4">A list of the classrooms you can join</TableCaption>
+            <TableCaption className="pb-4">
+              A list of the classrooms you can join
+            </TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead className="text-left w-1/3">

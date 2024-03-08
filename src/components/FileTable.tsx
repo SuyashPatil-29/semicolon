@@ -53,7 +53,7 @@ const FileTable = ({ user }: Props) => {
       <Separator />
       <div className="flex items-center gap-2.5 pt-10 pb-6 justify-between">
         <Input
-          className="flex-1 h-11 dark:bg-[rgb(40,40,40)] bg-neutral-200"
+          className="flex-1 h-11 dark:bg-[rgb(23,23,23)] bg-neutral-200"
           placeholder="Start typing to search..."
           onChange={(e) => {
             setSearchStarted(true); // Set search started to true on change

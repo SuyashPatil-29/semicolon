@@ -22,7 +22,7 @@ function GridBackgroundDemo() {
               href="/sign-up"
               className={cn(
                 buttonVariants(),
-                " dark:bg-white bg-black md:text-lg md:px-12 py-5 rounded-lg font-semibold",
+                "md:w-1/3 rounded-lg font-semibold",
               )}
             >
               Student Sign Up
