@@ -9,7 +9,7 @@ import { usePathname } from 'next/navigation'
 const AuthNavbar = ({user}:{user: any}) => {
   const pathname = usePathname(); 
   return (
-    <div className="w-full fixed z-1000 top-0 left-0 dark:bg-[rgb(35,35,35)] bg-white/10 flex items-center justify-between md:px-20 px-4 py-4 dark:text-white text-black border-b border-b-muted-foreground/40">
+    <div className="w-full fixed z-1000 top-0 left-0 dark:bg-[rgb(10,10,10)] bg-white/10 flex items-center justify-between md:px-20 px-4 py-4 dark:text-white text-black border-b border-b-muted-foreground/40">
       <Link href="/" className="font-bold text-2xl">SEMICOLON</Link>
       <div className="flex gap-8">
         <ModeToggle />

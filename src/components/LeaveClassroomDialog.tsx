@@ -13,13 +13,19 @@ import { toast } from "./ui/use-toast";
 import { LogOut } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 type Props = {
   classroomId: string;
 };
 
 export default function LeaveClassroomDialog({ classroomId }: Props) {
-  const router = useRouter()
+  const router = useRouter();
 
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const onSubmit = async () => {
@@ -32,8 +38,8 @@ export default function LeaveClassroomDialog({ classroomId }: Props) {
           title: "Left",
           description: "Classroom left successfully",
         });
-        router.push("/dashboard")
-        window.location.reload()
+        router.push("/dashboard");
+        window.location.reload();
       }
     } catch (error) {
       setIsButtonLoading(false);
@@ -49,10 +55,19 @@ export default function LeaveClassroomDialog({ classroomId }: Props) {
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="ghost">
-          <LogOut className="h-4 w-4" />
+          <TooltipProvider>
+            <Tooltip delayDuration={100}>
+              <TooltipTrigger>
+                <LogOut className="h-4 w-4" />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Leave Classroom</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </Button>
       </DialogTrigger>
-      <DialogContent  className="md:max-w-[425px] max-w-[350px]">
+      <DialogContent className="md:max-w-[425px] max-w-[350px]">
         <DialogHeader>
           <DialogTitle>
             Are you sure you want to leave this classroom?

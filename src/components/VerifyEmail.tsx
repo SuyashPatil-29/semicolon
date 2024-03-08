@@ -1,12 +1,29 @@
 "use client";
-import { cn } from "@/lib/utils";
-import { OTPInput, SlotProps } from "input-otp";
 import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { buttonVariants } from "./ui/button";
 import Link from "next/link";
 import { toast } from "./ui/use-toast"; // Make sure to import toast if it's defined in another file.
 import { redirect } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 
 type VerifyEmailProps = {
   user: {
@@ -19,12 +36,26 @@ type VerifyEmailProps = {
   };
 };
 
-const VerifyEmail = ({ user }: VerifyEmailProps) => {
-  const [otp, setOtp] = useState<string | null>(null);
-  const [newUser, setNewUser] = useState<VerifyEmailProps | null | undefined>(null);
+const FormSchema = z.object({
+  pin: z.string().min(6, {
+    message: "Your one-time password must be 6 characters.",
+  }),
+});
 
-  const handleComplete = async () => {
-    if (otp?.toString() !== user.code.toString()) {
+const VerifyEmail = ({ user }: VerifyEmailProps) => {
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      pin: "",
+    },
+  });
+
+  const [newUser, setNewUser] = useState<VerifyEmailProps | null | undefined>(
+    null
+  );
+
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    if (data.pin !== user.code.toString()) {
       toast({
         title: "Invalid OTP",
         description: "Please enter a valid OTP",
@@ -69,81 +100,46 @@ const VerifyEmail = ({ user }: VerifyEmailProps) => {
         }
       }
     }
-  };
+  }
 
   if (newUser) {
     return redirect("/sign-in");
   }
 
   return (
-    <div className="flex flex-col gap-8 items-center justify-center">
-      <h1 className="md:text-2xl text-xl font-semibold px-6">
-        Enter the OTP sent to {user.email}
-      </h1>
-      <OTPInput
-        maxLength={6}
-        containerClassName="group flex items-center has-[:disabled]:opacity-30"
-        onComplete={handleComplete}
-        onChange={setOtp}
-        render={({ slots }) => (
-          <>
-            <div className="flex">
-              {slots.slice(0, 3).map((slot, idx) => (
-                <Slot key={idx} {...slot} />
-              ))}
-            </div>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+        <FormField
+          control={form.control}
+          name="pin"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-xl font-semibold">One-Time Password</FormLabel>
+              <FormControl>
+                <InputOTP
+                  maxLength={6}
+                  render={({ slots }) => (
+                    <InputOTPGroup>
+                      {slots.map((slot, index) => (
+                        <InputOTPSlot key={index} {...slot} />
+                      ))}{" "}
+                    </InputOTPGroup>
+                  )}
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription className="text-muted-foreground">
+                Please enter the one-time password sent to {user.email}.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-            <FakeDash />
-
-            <div className="flex">
-              {slots.slice(3).map((slot, idx) => (
-                <Slot key={idx} {...slot} />
-              ))}
-            </div>
-          </>
-        )}
-      />
-
-      <p className="px-6">Once you enter the otp the process will continue automatically. Please do not refresh</p>
-    </div>
+        <Button type="submit" disabled={form.formState.isSubmitting} isLoading={form.formState.isSubmitting}>Submit</Button>
+      </form>
+    </Form>
   );
 };
 
 export default VerifyEmail;
-
-// Slot and FakeDash functions should be defined outside of VerifyEmail component.
-function Slot(props: SlotProps) {
-  return (
-    <div
-      className={cn(
-        "relative w-10 h-14 text-[2rem]",
-        "flex items-center justify-center",
-        "transition-all duration-200",
-        "border-border border-y border-r first:border-l first:rounded-l-md last:rounded-r-md",
-        "group-hover:border-white group-focus-within:border-accent-foreground/20",
-        "outline outline-1 outline-muted-foreground",
-        { "outline-4 dark:outline-yellow-700 outline-yellow-600": props.isActive }
-      )}
-    >
-      {props.char !== null && <div>{props.char}</div>}
-      {props.hasFakeCaret && <FakeCaret />}
-    </div>
-  );
-}
-
-function FakeCaret() {
-  return (
-    <div className="absolute pointer-events-none inset-0 flex items-center justify-center animate-caret-blink">
-      <div className="w-px h-8 bg-white" />
-    </div>
-  );
-}
-
-function FakeDash() {
-  return (
-    <div className="flex w-8 justify-center items-center">
-      <div className="w-3 h-1 rounded-full bg-muted-foreground" />
-    </div>
-  );
-}
-

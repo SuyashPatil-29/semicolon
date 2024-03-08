@@ -42,7 +42,7 @@ const JoinClassRoomForm = ({ classrooms, userData }: Props) => {
         {userData.access !== "STUDENT" && <span>or create one.</span>}
       </p>
       <Input
-        className="flex-1 dark:bg-[rgb(40,40,40)] bg-neutral-200 mb-6"
+        className="flex-1 dark:bg-[rgb(23,23,23)] bg-neutral-200 mb-6"
         placeholder="Start typing to search..."
         onChange={(e) => setSearchQuery(e.target.value)}
       />

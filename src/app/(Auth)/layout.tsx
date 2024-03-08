@@ -16,7 +16,7 @@ const layout = async ({ children }: Props) => {
   }
 
   return (
-    <div className="dark:bg-[rgb(28,28,28)] min-h-screen min-w-[100vw]">
+    <div className="dark:bg-[rgb(10,10,10)] min-h-screen min-w-[100vw]">
       <AuthNavbar user={session?.user} />
       <div className="md:h-screen w-[100vw] flex justify-center items-center pt-14">{children}</div>
     </div>

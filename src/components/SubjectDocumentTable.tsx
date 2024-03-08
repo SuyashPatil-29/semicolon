@@ -19,11 +19,19 @@ import { ErrorAlert } from "./ErrorAlert";
 import { buttonVariants } from "./ui/button";
 import DocumentUploadDialog from "./DocumentUploadDialog";
 import { access } from "@prisma/client";
-import Link from "next/link";
 import DeleteFileDialog from "./DeleteFileDialog";
 import { useRouter } from "next/navigation";
 import { toast } from "./ui/use-toast";
 import Image from "next/image";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { DownloadIcon } from "lucide-react";
 
 type Props = {
   subjectId: string;
@@ -74,7 +82,6 @@ const SubjectDocumentTable = ({
   >(null);
   const [searchStarted, setSearchStarted] = React.useState(false);
 
-
   useEffect(() => {
     setFilteredFiles(files!);
   }, [files]);
@@ -82,30 +89,28 @@ const SubjectDocumentTable = ({
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1 className="md:text-xl text-lg font-semibold">
-          {
-            <Link
-              className="hover:underline underline-offset-4"
-              href={`/classrooms/${classroomId}`}
-            >
-              {className}
-            </Link>
-          }{" "}
-          {">"} {subjectName}
-        </h1>
-
-        <Link href={`/classrooms/${classroomId}`}>
-          <button
-            className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
-          >
-            Back to classroom
-          </button>
-        </Link>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem className="md:text-xl md:font-semibold text-lg font-medium">
+              <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem className="md:text-xl md:font-semibold text-lg font-medium">
+              <BreadcrumbLink href={`/classrooms/${classroomId}`}>
+                {className}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem className="md:text-xl md:font-semibold text-lg font-medium">
+              <BreadcrumbPage>{subjectName}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
       </div>
       <Separator />
       <div className="flex items-center gap-2.5 pt-10 pb-6 justify-between">
         <Input
-          className="flex-1 dark:bg-[rgb(40,40,40)] bg-neutral-200"
+          className="flex-1 dark:bg-[rgb(23,23,23)] bg-neutral-200"
           placeholder="Start typing to search..."
           onChange={(e) => {
             setSearchStarted(true);
@@ -142,7 +147,9 @@ const SubjectDocumentTable = ({
             height="300"
             src="/empty.svg"
           />
-          <div className="text-2xl text-center">No documents uploaded. Please come back later</div>
+          <div className="text-2xl text-center">
+            No documents uploaded. Please come back later
+          </div>
         </div>
       ) : filteredFiles && filteredFiles.length > 0 ? (
         <Table>
@@ -152,7 +159,9 @@ const SubjectDocumentTable = ({
               <TableHead className="text-center">Date</TableHead>
               <TableHead className="text-center">Uploaded By</TableHead>
               <TableHead className="text-center">Download</TableHead>
-              <TableHead className="text-center">Action</TableHead>
+              {userAccess !== "STUDENT" && (
+                <TableHead className="text-center">Action</TableHead>
+              )}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -179,11 +188,11 @@ const SubjectDocumentTable = ({
                       href={fileUrl}
                       target="_blank"
                       className={cn(
-                        buttonVariants({ variant: "link" }),
+                        buttonVariants({ variant: "ghost" }),
                         "w-fit"
                       )}
                     >
-                      Download
+                      <DownloadIcon className="w-5 h-5" />
                     </a>
                   </TableCell>
                   <TableCell className="text-center">
@@ -202,14 +211,16 @@ const SubjectDocumentTable = ({
         </Table>
       ) : searchStarted ? (
         <div className="flex flex-col gap-8 w-full items-center mt-24">
-      <Image
-        alt="an image of a picture and directory icon"
-        width="300"
-        height="300"
-        src="/empty.svg"
-      />
-      <div className="text-2xl text-center">No documents uploaded. Please come back later</div>
-    </div>
+          <Image
+            alt="an image of a picture and directory icon"
+            width="300"
+            height="300"
+            src="/empty.svg"
+          />
+          <div className="text-2xl text-center">
+            No documents uploaded. Please come back later
+          </div>
+        </div>
       ) : (
         <LoadingState />
       )}

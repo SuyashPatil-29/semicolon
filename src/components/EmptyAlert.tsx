@@ -7,7 +7,7 @@ type Props = {
 
 export function EmptyAlert({ message }: Props) {
   return (
-    <Alert className="dark:bg-[rgb(40,40,40)] dark:border-white">
+    <Alert className="dark:bg-[rgb(23,23,23)] dark:border-white">
       <AlertCircle className="h-4 w-4" />
       <AlertTitle>Oops</AlertTitle>
       <AlertDescription>

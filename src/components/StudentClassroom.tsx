@@ -6,7 +6,6 @@ import { buttonVariants } from "./ui/button";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -55,8 +54,7 @@ const StudentClassroom = ({ userData }: Props) => {
                 <TableCell className="text-center">
                   <Link
                     className={cn(
-                      buttonVariants({ variant: "link" }),
-                      "w-[16.666%] text-center"
+                      "w-[16.666%] text-center hover:underline underline-offset-4", 
                     )}
                     href={`/classrooms/${classroom.classroomId}`}
                   >
@@ -82,7 +80,7 @@ const StudentClassroom = ({ userData }: Props) => {
               className="cursor-pointer border-white border rounded-xl"
               key={subject.id}
             >
-              <Card className="flex flex-col items-start justify-start p-8 rounded-xl dark:bg-[rgb(35,35,35)]/100">
+              <Card className="flex flex-col items-start justify-start p-8 rounded-xl dark:bg-[rgb(17,17,17)]/100">
                 <h1 className="text-xl font-bold">{subject.name}</h1>
                 <h1 className="text-base">
                 </h1>

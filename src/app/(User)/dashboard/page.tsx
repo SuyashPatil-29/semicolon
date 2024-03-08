@@ -9,7 +9,7 @@ const StudentDashboard = async () => {
   const session = await getServerSession(authOptions);
 
   return (
-    <div className="min-h-screen h-full dark:bg-[rgb(28,28,28)]">
+    <div className="min-h-screen h-full dark:bg-[rgb(10,10,10)]">
       <div className=" flex items-center justify-between pt-24">
         <h1 className="md:text-3xl text-xl font-semibold">
           Welcome {session?.user?.name},

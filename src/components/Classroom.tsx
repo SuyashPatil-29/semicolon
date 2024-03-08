@@ -14,6 +14,14 @@ import { buttonVariants } from "./ui/button";
 import { toast } from "./ui/use-toast";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 type Props = {
   classroomId: string;
@@ -89,11 +97,18 @@ const Classroom = ({ classroomId, user }: Props) => {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1 className="md:text-2xl text-xl font-bold">{classroomData.name}</h1>
+                <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem className="md:text-xl md:font-semibold text-lg font-medium">
+              <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem className="md:text-xl md:font-semibold text-lg font-medium">
+              <BreadcrumbPage>{classroomData.name}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
         <div className="flex items-center gap-2">
-          <Link href={`/dashboard`} className={buttonVariants({ variant: "default", size: "sm" })}>
-            Back
-          </Link>
           {user.access !== "STUDENT" && user.access !== "CR" && (
             <CreateSubjectDialog classroomId={classroomId} />
           )}
@@ -106,7 +121,7 @@ const Classroom = ({ classroomId, user }: Props) => {
       </div>
       <Separator className="mt-3 mb-6" />
       <Input
-        className="flex-1 dark:bg-[rgb(40,40,40)] bg-neutral-200"
+        className="flex-1 dark:bg-[rgb(17,17,17)] bg-neutral-200"
         placeholder="Start typing to search..."
         onChange={(e) => setSearchQuery(e.target.value)}
       />
@@ -135,7 +150,7 @@ const Classroom = ({ classroomId, user }: Props) => {
               className="cursor-pointer border-white border rounded-xl"
               key={subject.id}
             >
-              <Card className="flex flex-col items-start justify-start p-8 rounded-xl dark:bg-[rgb(35,35,35)]/100">
+              <Card className="flex flex-col items-start justify-start p-8 rounded-xl dark:bg-[rgb(17,17,17)]/100">
                 <h1 className="text-xl font-bold">{subject.name}</h1>
                 <h1 className="text-base">
                   Number of Documents: {subject.documents.length}
