@@ -9,20 +9,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { MultiFileDropzoneUsage } from "./MultiFileDropzoneUsage";
-
-import { User } from "@prisma/client";
-import { Pick } from "@prisma/client/runtime/library";
 import { Plus } from "lucide-react";
 import { MultiDocumentDropzoneUsage } from "./MultiDocumentDropzoneUsage";
 
 type Props = {
-  classroomId: string
-  subjectId: string,
-  userName : string
+  classroomId: string;
+  subjectId: string;
+  userName: string;
 };
 
-export default function DocumentUploadDialog({ subjectId , classroomId, userName }: Props) {
+export default function DocumentUploadDialog({
+  subjectId,
+  classroomId,
+  userName,
+}: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -43,14 +43,18 @@ export default function DocumentUploadDialog({ subjectId , classroomId, userName
           </Button>
         </div>
       </DialogTrigger>
-      <DialogContent  className="md:max-w-[425px] max-w-[350px]">
+      <DialogContent className="md:max-w-[425px] max-w-[350px]">
         <DialogHeader>
           <DialogTitle>Upload Files</DialogTitle>
           <DialogDescription>
             Drag your files or click to select files
           </DialogDescription>
         </DialogHeader>
-        <MultiDocumentDropzoneUsage classroomId={classroomId} subjectId={subjectId} userName={userName} />
+        <MultiDocumentDropzoneUsage
+          classroomId={classroomId}
+          subjectId={subjectId}
+          userName={userName}
+        />
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
             <Button type="button" variant="secondary">
@@ -62,4 +66,3 @@ export default function DocumentUploadDialog({ subjectId , classroomId, userName
     </Dialog>
   );
 }
-
