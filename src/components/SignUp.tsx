@@ -3,7 +3,7 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -68,6 +68,14 @@ const SignUp = () => {
         });
       }
     } catch (error: AxiosError | any | undefined) {
+      if(error.response?.data === "User already exists") {
+        return toast({
+          title: "User already exists",
+          description: "Another user with the same phone number or name already exists",
+          variant: "destructive",
+          action: <Link className={buttonVariants()} href="/sign-in">Login</Link>
+        });
+      }
       return toast({
         title: "Something went wrong",
         description: "Please try again later.",

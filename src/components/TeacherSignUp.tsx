@@ -3,7 +3,7 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -70,6 +70,14 @@ const TeacherSignUp = () => {
         });
       }
     } catch (error: AxiosError | any | undefined) {
+      if(error.response?.data === "User already exists") {
+        return toast({
+          title: "User already exists",
+          description: "Another user with the same phone number or name already exists",
+          variant: "destructive",
+          action: <Link className={buttonVariants()} href="/sign-in">Login</Link>
+        });
+      }
       return toast({
         title: "Something went wrong",
         description: "Please try again later.",
@@ -83,7 +91,7 @@ const TeacherSignUp = () => {
   }
 
   return (
-    <Card className="rounded-xl md:px-44 px-6 py-8 md:py-0 dark:bg-[rgb(23,23,23)] bg-neutral-200 border dark:border-[rgb(255,215,0)]/20 border-black">
+    <Card className="rounded-xl md:px-44 px-6 py-8 md:py-6 dark:bg-[rgb(15,15,15)] bg-neutral-200 border dark:border-[rgb(162,162,162)]/20 border-black">
       <div className="space-y-2 text-center pb-8">
         <h1 className="text-3xl font-bold text-black dark:text-white">
           Sign Up
@@ -95,7 +103,7 @@ const TeacherSignUp = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4 max-w-[80vw]"
+          className="md:space-y-2 space-y-4 md:max-w-[80vw] max-w-[300px] mx-auto"
         >
           <FormField
             control={form.control}
