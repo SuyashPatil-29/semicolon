@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
 import JoinClassRoomForm from "./JoinClassRoomForm";
-import { LoadingState } from "./LoadingState";
+import { Skeleton, SVGSkeleton } from "@/components/ui/skeleton";
 import MyClassroom from "./MyClassroom";
 import StudentClassroom from "./StudentClassroom";
 import { UserValidator } from "@/lib/validators/UserValidator";
@@ -76,4 +76,88 @@ const UserData = () => {
 };
 
 export default UserData;
+
+const LoadingSkeleton = () => {
+  // Create an array with a length of 5 for five rows
+  const rows = Array.from({ length: 3 });
+
+  return (
+    <>
+      <div className="pb-14">
+        <h1 className="pt-8 pb-4">
+          <Skeleton className="w-[104px] max-w-full" />
+        </h1>
+        <div className="flex h-10 w-full border border-input px-3 py-2 file:border-0 flex-1 my-4">
+          <Skeleton className="w-[200px] max-w-full" />
+        </div>
+        <div>
+          <div className="relative w-full overflow-auto">
+            <table className="w-full caption-bottom">
+              <caption className="mt-4 pb-4">
+                <Skeleton className="w-[320px] max-w-full" />
+              </caption>
+              <thead className="[&amp;_tr]:border-b">
+                <tr className="border-b transition-colors">
+                  <th className="h-12 px-4 align-middle [&amp;:has([role=checkbox])]:pr-0 text-left w-1/3">
+                    <Skeleton className="w-[112px] max-w-full" />
+                  </th>
+                  <th className="h-12 px-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                    <Skeleton className="w-[80px] max-w-full" />
+                  </th>
+                  <th className="h-12 px-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                    <Skeleton className="w-[56px] max-w-full" />
+                  </th>
+                  <th className="h-12 px-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                    <Skeleton className="w-[64px] max-w-full" />
+                  </th>
+                  <th className="h-12 px-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                    <Skeleton className="w-[32px] max-w-full" />
+                  </th>
+                  <th className="h-12 px-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                    <Skeleton className="w-[48px] max-w-full" />
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="[&amp;_tr:last-child]:border-0">
+                {/* Map over the array to generate multiple rows */}
+                {rows.map((_, index) => (
+                  <tr key={index} className="border-b transition-colors">
+                    <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 text-left">
+                      <Skeleton className="w-[56px] max-w-full" />
+                    </td>
+                    <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                      <Skeleton className="w-[48px] max-w-full" />
+                    </td>
+                    <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                      <Skeleton className="w-[16px] max-w-full" />
+                    </td>
+                    <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                      <Skeleton className="w-[14px] max-w-full" />
+                    </td>
+                    <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                      <a className="w-[16.666%]">
+                        <Skeleton className="w-[32px] max-w-full" />
+                      </a>
+                    </td>
+                    <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                      <div className="inline-flex items-center justify-center transition-colors h-10 px-4 py-2">
+                        <SVGSkeleton className="w-[24px] h-[24px]" />
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+const LoadingState = () => (
+  <div className="w-full h-full">
+    <LoadingSkeleton />
+  </div>
+);
 

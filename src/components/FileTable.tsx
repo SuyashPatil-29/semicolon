@@ -18,7 +18,6 @@ import {
 import { cn, formatDate } from "@/lib/utils";
 import { ErrorAlert } from "./ErrorAlert";
 import { Separator } from "@/components/ui/separator";
-import { LoadingState } from "./LoadingState";
 import { buttonVariants } from "./ui/button";
 import Image from "next/image";
 
@@ -146,3 +145,106 @@ const FileTable = ({ user }: Props) => {
 };
 
 export default FileTable;
+
+import { Skeleton, SVGSkeleton } from "@/components/ui/skeleton";
+
+const LoadingSkeleton = () => (
+  <>
+    <div className="relative w-full overflow-auto">
+      <table className="w-full caption-bottom">
+        <thead className="[&amp;_tr]:border-b">
+          <tr className="border-b transition-colors">
+            <th className="h-12 px-4 text-left align-middle [&amp;:has([role=checkbox])]:pr-0 w-1/2">
+              <Skeleton className="w-[32px] max-w-full" />
+            </th>
+            <th className="h-12 px-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+              <Skeleton className="w-[32px] max-w-full" />
+            </th>
+            <th className="h-12 px-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+              <Skeleton className="w-[88px] max-w-full" />
+            </th>
+            <th className="h-12 px-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+              <Skeleton className="w-[64px] max-w-full" />
+            </th>
+          </tr>
+        </thead>
+        <tbody className="[&amp;_tr:last-child]:border-0">
+          <tr className="border-b transition-colors">
+            <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 w-1/2">
+              <Skeleton className="w-[176px] max-w-full" />
+            </td>
+            <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+              <Skeleton className="w-[96px] max-w-full" />
+            </td>
+            <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+              <Skeleton className="w-[48px] max-w-full" />
+            </td>
+            <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+              <a className="inline-flex items-center justify-center transition-colors h-10 px-4 py-2 w-fit">
+                <SVGSkeleton className="w-[24px] h-[24px]" />
+              </a>
+            </td>
+            <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0"></td>
+          </tr>
+          <tr className="border-b transition-colors">
+            <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 w-1/2">
+              <Skeleton className="w-[112px] max-w-full" />
+            </td>
+            <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+              <Skeleton className="w-[96px] max-w-full" />
+            </td>
+            <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+              <Skeleton className="w-[48px] max-w-full" />
+            </td>
+            <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+              <a className="inline-flex items-center justify-center transition-colors h-10 px-4 py-2 w-fit">
+                <SVGSkeleton className="w-[24px] h-[24px]" />
+              </a>
+            </td>
+            <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0"></td>
+          </tr>
+          <tr className="border-b transition-colors">
+            <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 w-1/2">
+              <Skeleton className="w-[112px] max-w-full" />
+            </td>
+            <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+              <Skeleton className="w-[96px] max-w-full" />
+            </td>
+            <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+              <Skeleton className="w-[48px] max-w-full" />
+            </td>
+            <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+              <a className="inline-flex items-center justify-center transition-colors h-10 px-4 py-2 w-fit">
+                <SVGSkeleton className="w-[24px] h-[24px]" />
+              </a>
+            </td>
+            <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0"></td>
+          </tr>
+          <tr className="border-b transition-colors">
+            <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 w-1/2">
+              <Skeleton className="w-[128px] max-w-full" />
+            </td>
+            <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+              <Skeleton className="w-[96px] max-w-full" />
+            </td>
+            <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+              <Skeleton className="w-[48px] max-w-full" />
+            </td>
+            <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+              <a className="inline-flex items-center justify-center transition-colors h-10 px-4 py-2 w-fit">
+                <SVGSkeleton className="w-[24px] h-[24px]" />
+              </a>
+            </td>
+            <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </>
+);
+
+const LoadingState = () => (
+  <div className="w-full h-full">
+    <LoadingSkeleton />
+  </div>
+);

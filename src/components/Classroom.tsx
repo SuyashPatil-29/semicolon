@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { LoadingState } from "./LoadingState";
 import { Separator } from "./ui/separator";
 import CreateSubjectDialog from "./CreateSubjectDialog";
 import Link from "next/link";
@@ -10,7 +9,6 @@ import { Card } from "./ui/card";
 import { Input } from "./ui/input";
 import DeleteClassroomDialog from "./DeleteClassroomDialog";
 import LeaveClassroomDialog from "./LeaveClassroomDialog";
-import { buttonVariants } from "./ui/button";
 import { toast } from "./ui/use-toast";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -97,7 +95,7 @@ const Classroom = ({ classroomId, user }: Props) => {
   return (
     <div>
       <div className="flex items-center justify-between">
-                <Breadcrumb>
+        <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem className="md:text-xl md:font-semibold text-lg font-medium">
               <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
@@ -164,4 +162,88 @@ const Classroom = ({ classroomId, user }: Props) => {
 };
 
 export default Classroom;
+import { Skeleton, SVGSkeleton } from "@/components/ui/skeleton";
 
+const LoadingSkeleton = () => (
+  <>
+    <div>
+      <div className="flex items-center justify-between">
+        <nav>
+          <ol className="flex flex-wrap items-center gap-1.5 sm:gap-2.5">
+            <li className="inline-flex items-center gap-1.5">
+              <a className="transition-colors">
+                <Skeleton className="w-[72px] max-w-full" />
+              </a>
+            </li>
+            <li className="[&amp;>svg]:size-3.5">
+              <SVGSkeleton className="lucide-chevron-right w-[24px] h-[24px]" />
+            </li>
+            <li className="inline-flex items-center gap-1.5">
+              <span>
+                <Skeleton className="w-[56px] max-w-full" />
+              </span>
+            </li>
+          </ol>
+        </nav>
+        <div className="flex items-center gap-2">
+          <div className="inline-flex items-center justify-center transition-colors h-10 px-4 py-2"></div>
+          <div>
+            <SVGSkeleton className="w-[24px] h-[24px]" />
+          </div>
+        </div>
+      </div>
+      <div className="shrink-0 bg-border h-[1px] w-full mt-3 mb-6"></div>
+      <div className="flex h-10 w-full border border-input px-3 py-2 file:border-0 flex-1">
+        <Skeleton className="w-[200px] max-w-full" />
+      </div>
+      <div className="grid md:grid-cols-3 grid-cols-1 gap-6 mt-6 pb-14">
+        <a className="border-white border">
+          <div className="border shadow-sm flex flex-col items-start justify-start p-8">
+            <h1>
+              <Skeleton className="w-[32px] max-w-full" />
+            </h1>
+            <h1>
+              <Skeleton className="w-[176px] max-w-full" />
+            </h1>
+          </div>
+        </a>
+        <a className="border-white border">
+          <div className="border shadow-sm flex flex-col items-start justify-start p-8">
+            <h1>
+              <Skeleton className="w-[24px] max-w-full" />
+            </h1>
+            <h1>
+              <Skeleton className="w-[176px] max-w-full" />
+            </h1>
+          </div>
+        </a>
+        <a className="border-white border">
+          <div className="border shadow-sm flex flex-col items-start justify-start p-8">
+            <h1>
+              <Skeleton className="w-[40px] max-w-full" />
+            </h1>
+            <h1>
+              <Skeleton className="w-[176px] max-w-full" />
+            </h1>
+          </div>
+        </a>
+        <a className="border-white border">
+          <div className="border shadow-sm flex flex-col items-start justify-start p-8">
+            <h1>
+              <Skeleton className="w-[24px] max-w-full" />
+            </h1>
+            <h1>
+              <Skeleton className="w-[176px] max-w-full" />
+            </h1>
+          </div>
+        </a>
+      </div>
+    </div>
+  </>
+);
+
+const LoadingState = () => (
+  <div className="w-full h-full">
+    <LoadingSkeleton />
+  </div>
+);
