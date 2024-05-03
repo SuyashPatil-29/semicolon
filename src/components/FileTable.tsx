@@ -41,7 +41,6 @@ const FileTable = ({ user }: Props) => {
   >(null);
   const [searchStarted, setSearchStarted] = React.useState(false); // State to track if search has started
 
-
   // Use useEffect to update filteredFiles when files data changes
   useEffect(() => {
     setFilteredFiles(files!);
@@ -89,7 +88,9 @@ const FileTable = ({ user }: Props) => {
             height="300"
             src="/empty.svg"
           />
-          <div className="text-2xl text-center">You have no files, upload one now</div>
+          <div className="text-2xl text-center">
+            You have no files, upload one now
+          </div>
         </div>
       ) : filteredFiles && filteredFiles.length > 0 ? (
         <Table>
@@ -135,7 +136,9 @@ const FileTable = ({ user }: Props) => {
             height="300"
             src="/empty.svg"
           />
-          <div className="text-2xl text-center">You have no files, upload one now</div>
+          <div className="text-2xl text-center">
+            You have no files, upload one now
+          </div>
         </div>
       ) : (
         <LoadingState />

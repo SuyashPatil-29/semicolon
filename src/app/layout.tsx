@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { EdgeStoreProvider } from "@/lib/edgestore";
 import { GeistSans } from "geist/font/sans";
 import { unstable_noStore as noStore } from "next/cache";
+import { Analytics } from '@vercel/analytics/react';
 
 export const metadata: Metadata = {
   title: "Semicolon",
@@ -39,7 +40,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AllProviders>
-            <EdgeStoreProvider>{children}</EdgeStoreProvider>
+            <EdgeStoreProvider>
+              {children}
+            </EdgeStoreProvider>
+            <Analytics />
             <Toaster />
           </AllProviders>
         </ThemeProvider>

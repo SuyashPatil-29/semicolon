@@ -16,8 +16,7 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
-    const { uploadedAt, userId, fileUrl, fileSize, uploadedBy, name } =
-      AimlFileUploadValidator.parse(body);
+    const { fileUrl, fileSize, userId, uploadedBy, uploadedAt, name } = AimlFileUploadValidator.parse(body);
 
     const user = await db.user.findUnique({
       where: { id: userId },
